@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>ToyMovie Maker – Web-Prototyp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Basis-Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- =========================================================
+       SCREEN: START
+       ========================================================= -->
+  <main id="screen-start" class="screen screen--active">
+    <div class="app-header">
+      <h1 class="app-title">ToyMovie Maker</h1>
+      <p class="app-subtitle">Stop-Motion mit LEGO, Playmobil & Barbie</p>
+    </div>
+
+    <section class="start-actions">
+      <button id="btn-start-camera" class="btn btn--primary">
+        🎥 Zur Kamera / Prototyp starten
+      </button>
+
+      <p class="start-hint">
+        Dieser Prototyp läuft im Browser und nutzt die Handy-Kamera.<br>
+        Auf dem Smartphone bitte im <strong>Hochformat</strong> testen.
+      </p>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       SCREEN: CAMERA / ONION-SKIN
+       ========================================================= -->
+  <main id="screen-camera" class="screen">
+    <header class="top-bar">
+      <button id="btn-back" class="btn btn--icon" title="Zurück zum Start">
+        ⬅
+      </button>
+      <h2 class="top-bar__title">ToyMovie Maker – Kamera</h2>
+    </header>
+
+    <section class="camera-wrapper">
+      <!-- Video zeigt den Live-Stream der Kamera -->
+      <video id="camera-preview" autoplay playsinline></video>
+
+      <!-- Canvas liegt transparent darüber und malt Ghost-Frames -->
+      <canvas id="overlay-canvas"></canvas>
+    </section>
+
+    <section class="controls">
+      <div class="controls__row">
+        <button id="btn-capture" class="btn btn--capture">
+          ⭕ Foto aufnehmen
+        </button>
+      </div>
+
+      <div class="controls__row controls__row--slider">
+        <label for="slider-overlay-count">
+          Overlay-Bilder:
+          <span id="label-overlay-count">3</span>
+        </label>
+        <input type="range" id="slider-overlay-count" min="1" max="5" value="3">
+      </div>
+
+      <div class="controls__row controls__row--slider">
+        <label for="slider-opacity">
+          Transparenz:
+          <span id="label-opacity">0.5</span>
+        </label>
+        <input type="range" id="slider-opacity" min="0" max="1" step="0.05" value="0.5">
+      </div>
+
+      <p class="controls__hint">
+        Tipp: Mach mehrere Fotos hintereinander – die letzten Frames
+        erscheinen als „Geisterbilder“ über dem Live-Bild.
+      </p>
+
+      <p class="controls__error" id="error-message" hidden></p>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       SCRIPTS
+       ========================================================= -->
+  <script src="app.js"></script>
+</body>
+</html>
