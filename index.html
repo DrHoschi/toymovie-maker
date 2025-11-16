@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>ToyMovie Maker – Prototyp</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-pink">
+  <!-- =========================================================
+       GLOBAL TOPBAR
+       ========================================================= -->
+  <header class="topbar">
+    <div class="topbar-title" id="appTitle" data-i18n="appTitle">
+      ToyMovie Maker
+    </div>
+    <button id="btnOpenSettings" class="topbar-settings" type="button">
+      ⚙︎
+    </button>
+  </header>
+
+  <!-- =========================================================
+       SCREEN: HOME / MODUS-WAHL + PROJEKTE
+       ========================================================= -->
+  <main id="screen-home" class="screen screen--active">
+    <!-- Matrix: Light / Pro + Bibliothek / Neues Projekt + Einstellungen -->
+    <section class="home-grid">
+      <div class="home-row home-row--modes">
+        <button id="btnModeLight" class="home-card home-card--mode" type="button">
+          <div class="home-card-icon">🌈</div>
+          <div id="homeModeLightTitle" class="home-card-title" data-i18n="homeModeLightTitle">
+            Light Version
+          </div>
+          <div id="homeModeLightDesc" class="home-card-desc" data-i18n="homeModeLightDesc">
+            Einfach &amp; kinderfreundlich
+          </div>
+        </button>
+
+        <button id="btnModePro" class="home-card home-card--mode" type="button">
+          <div class="home-card-icon">🧰</div>
+          <div id="homeModeProTitle" class="home-card-title" data-i18n="homeModeProTitle">
+            Pro Version
+          </div>
+          <div id="homeModeProDesc" class="home-card-desc" data-i18n="homeModeProDesc">
+            Alle Werkzeuge für Profis
+          </div>
+        </button>
+      </div>
+
+      <div class="home-row home-row--actions">
+        <button id="btnHomeLibrary" class="home-card" type="button">
+          <div class="home-card-icon">📂</div>
+          <div id="homeLibraryTitle" class="home-card-title" data-i18n="homeLibraryTitle">
+            Bibliothek
+          </div>
+          <div id="homeLibraryDesc" class="home-card-desc" data-i18n="homeLibraryDesc">
+            Alle Projekte anzeigen
+          </div>
+        </button>
+
+        <button id="btnHomeNewProjectTile" class="home-card" type="button">
+          <div class="home-card-icon">🎬</div>
+          <div id="homeNewProjectTitle" class="home-card-title" data-i18n="homeNewProjectTitle">
+            Neues Projekt
+          </div>
+          <div id="homeNewProjectDesc" class="home-card-desc" data-i18n="homeNewProjectDesc">
+            Neues Stop-Motion starten
+          </div>
+        </button>
+      </div>
+
+      <div class="home-row home-row--settings">
+        <button id="btnHomeSettings" class="home-card home-card--settings" type="button">
+          <div class="home-card-icon">⚙︎</div>
+          <div id="homeSettingsTitle" class="home-card-title" data-i18n="homeSettingsTitle">
+            Einstellungen
+          </div>
+          <div id="homeSettingsDesc" class="home-card-desc" data-i18n="homeSettingsDesc">
+            Sprache, Modus &amp; Design
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Info-Box / Hero -->
+    <section class="hero">
+      <h1 id="heroTitle" data-i18n="heroTitle">ToyMovie Maker</h1>
+      <p class="hero-sub" id="heroSub" data-i18n="heroSub">
+        Stop-Motion mit LEGO, Playmobil &amp; Barbie
+      </p>
+      <p class="hero-text" id="heroText" data-i18n="heroText">
+        Dieser Prototyp läuft im Browser und nutzt die Handy-Kamera.<br>
+        Auf dem Smartphone bitte im <b>Hochformat</b> testen.
+      </p>
+
+      <button id="btnNewProject" class="btn-primary btn-full" type="button" data-i18n="btnNewProject">
+        🎬 Neues Projekt starten
+      </button>
+    </section>
+
+    <!-- Projekte-Liste -->
+    <section class="projects">
+      <h2 id="projectsHeading" data-i18n="projectsHeading">Meine Projekte</h2>
+      <p class="projects-hint" id="projectsEmptyHint" data-i18n="projectsEmpty">
+        Noch keine Projekte. Starte oben ein neues Stop-Motion-Projekt.
+      </p>
+      <div id="projectList" class="project-list"><!-- Cards per Projekt --></div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       SCREEN: KAMERA / AUFNAHME + PLAYER/EDITOR
+       ========================================================= -->
+  <main id="screen-camera" class="screen">
+    <header class="camera-header">
+      <button id="btnBackHome" class="btn-icon" type="button" data-i18n="btnBackHome">
+        ⬅︎ Zur Übersicht
+      </button>
+      <div class="camera-title">
+        <div id="currentProjectName">ToyMovie Maker – Kamera</div>
+        <div id="currentProjectToy" class="camera-toy">LEGO</div>
+        <div id="currentFrameInfo" class="camera-frameinfo">0 Bilder</div>
+      </div>
+      <button id="btnOpenSettingsCam" class="btn-icon" type="button" title="Einstellungen">
+        ⚙︎
+      </button>
+    </header>
+
+    <section class="camera-card">
+      <div class="camera-view">
+        <!-- Live-Kamera -->
+        <video id="cameraVideo" playsinline autoplay muted></video>
+        <!-- Overlay für Ghosting der letzten Frames -->
+        <canvas id="overlayCanvas"></canvas>
+      </div>
+
+      <div class="camera-controls">
+        <button id="btnCapture" class="btn-primary btn-full" type="button" data-i18n="btnCapture">
+          ⭕ Foto aufnehmen
+        </button>
+
+        <div class="slider-row slider-row--overlayCount">
+          <label for="overlayCount">
+            <span data-i18n="overlayCountLabel">Overlay-Bilder:</span>
+            <span id="overlayCountLabel">3</span>
+          </label>
+          <input id="overlayCount" type="range" min="1" max="5" value="3">
+        </div>
+
+        <div class="slider-row slider-row--overlayAlpha">
+          <label for="overlayAlpha">
+            <span data-i18n="overlayAlphaLabel">Transparenz:</span>
+            <span id="overlayAlphaLabel">0.5</span>
+          </label>
+          <input id="overlayAlpha" type="range" min="0" max="1" step="0.05" value="0.5">
+        </div>
+
+        <div class="frame-tools">
+          <button id="btnUndoFrame" class="btn-secondary" type="button" data-i18n="btnUndoFrame">
+            ↩︎ Letztes Bild löschen
+          </button>
+        </div>
+
+        <div class="frames-strip">
+          <h3 data-i18n="framesHeading">Aufgenommene Bilder</h3>
+          <div id="frameList" class="frame-list">
+            <!-- Thumbnails -->
+          </div>
+        </div>
+
+        <!-- PLAYER / EDITOR -->
+        <div class="player">
+          <h3 data-i18n="playerHeading">Vorschau / Player</h3>
+          <div class="player-main">
+            <div class="player-preview">
+              <div class="player-preview-inner">
+                <span id="playerNoFrameHint" class="player-hint" data-i18n="playerNoFrame">
+                  Noch keine Bilder. Nimm zuerst Fotos auf.
+                </span>
+                <img id="playerImage" alt="Frame Preview">
+              </div>
+            </div>
+            <div class="player-controls">
+              <div class="player-buttons">
+                <button id="btnPlayerPrev" class="btn-icon" type="button" data-i18n="btnPlayerPrev">
+                  ◀︎
+                </button>
+                <button id="btnPlayerPlayPause" class="btn-secondary" type="button" data-i18n="btnPlayerPlay">
+                  ▶︎ Abspielen
+                </button>
+                <button id="btnPlayerNext" class="btn-icon" type="button" data-i18n="btnPlayerNext">
+                  ▶︎
+                </button>
+              </div>
+              <div class="player-slider-row player-slider-row--position">
+                <label for="playerPosition">
+                  <span data-i18n="playerPositionLabel">Position:</span>
+                  <span id="playerPositionLabel">0 / 0</span>
+                </label>
+                <input id="playerPosition" type="range" min="0" max="0" value="0">
+              </div>
+              <div class="player-slider-row player-slider-row--fps">
+                <label for="playerFps">
+                  <span data-i18n="playerFpsLabel">Geschwindigkeit (FPS):</span>
+                  <span id="playerFpsLabel">4</span>
+                </label>
+                <input id="playerFps" type="range" min="1" max="12" value="4">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /PLAYER -->
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       SCREEN: SETTINGS
+       ========================================================= -->
+  <main id="screen-settings" class="screen">
+    <header class="settings-header">
+      <button id="btnSettingsBack" class="btn-icon" type="button" data-i18n="btnSettingsBack">
+        ⬅︎ Zurück
+      </button>
+      <h1 id="settingsHeading" data-i18n="settingsHeading">Einstellungen</h1>
+    </header>
+
+    <section class="settings-section">
+      <h2 id="settingsAppHeading" data-i18n="settingsAppHeading">App-Einstellungen</h2>
+
+      <div class="settings-row">
+        <label for="settingTheme" id="settingThemeLabel" data-i18n="settingThemeLabel">Farbschema</label>
+        <select id="settingTheme">
+          <option value="pink" data-i18n="themePink">Pink (Standard)</option>
+          <option value="blue" data-i18n="themeBlue">Blau</option>
+        </select>
+      </div>
+
+      <div class="settings-row">
+        <label for="settingLang" id="settingLangLabel" data-i18n="settingLangLabel">Sprache</label>
+        <select id="settingLang">
+          <option value="de" data-i18n="langDe">Deutsch</option>
+          <option value="en" data-i18n="langEn">English</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2 id="settingsProjectHeading" data-i18n="settingsProjectHeading">Projekt-Einstellungen</h2>
+      <p id="settingsProjectInfo" data-i18n="settingsProjectInfo">
+        Aktives Projekt:
+      </p>
+
+      <div class="settings-row">
+        <label id="settingsProjectNameLabel" data-i18n="settingsProjectNameLabel">Projektname</label>
+        <div id="settingProjectName" class="settings-value">
+          –
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <label for="settingToyType" id="settingToyTypeLabel" data-i18n="settingToyTypeLabel">Spielzeug-Typ</label>
+        <select id="settingToyType">
+          <option value="lego" data-i18n="toyLego">🧱 LEGO</option>
+          <option value="playmobil" data-i18n="toyPlaymobil">🏰 Playmobil</option>
+          <option value="barbie" data-i18n="toyBarbie">👧 Barbie</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2 id="settingsDataHeading" data-i18n="settingsDataHeading">Daten</h2>
+
+      <div class="settings-row">
+        <button id="btnExportData" class="btn-secondary btn-full" type="button" data-i18n="btnExportData">
+          ⬇︎ Daten exportieren (Download)
+        </button>
+      </div>
+
+      <div class="settings-row">
+        <input id="inputImportData" type="file" accept="application/json" style="display:none">
+        <button id="btnImportData" class="btn-secondary btn-full" type="button" data-i18n="btnImportData">
+          ⬆︎ Daten importieren (JSON)
+        </button>
+      </div>
+
+      <div class="settings-row">
+        <button id="btnClearData" class="btn-secondary btn-full" type="button" data-i18n="btnClearData">
+          🗑 Alle lokalen Daten löschen
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="footerText" data-i18n="footerText">
+      drhoschi.github.io – ToyMovie Maker Prototyp
+    </span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
