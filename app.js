@@ -1,213 +1,424 @@
-/* ============================================================================
- * ToyMovie Maker – Web-Prototyp
- * Datei   : app.js
- * Zweck   : Kamera starten, Frames aufnehmen, Onion-Skin-Overlay zeichnen
- * Hinweis : Läuft nur über https oder auf localhost mit Kamera-Berechtigung.
- * ========================================================================== */
+/* ============================================================
+ * ToyMovie Maker – App-Logik
+ * Version: v0.2.0
+ *
+ * Features:
+ *  - Theme-Umschaltung Pink / Blau (persistiert in localStorage)
+ *  - Projektliste (Workspace) mit mehreren Projekten
+ *  - Kamera-Ansicht mit Bildsequenz pro Projekt (Frames)
+ *  - Overlay-Ghosting der letzten N Frames
+ * ========================================================== */
 
-(() => {
-  // ----------------------------- DOM-Elemente ------------------------------
-  const screenStart = document.getElementById("screen-start");
-  const screenCamera = document.getElementById("screen-camera");
+(function () {
+  'use strict';
 
-  const btnStartCamera = document.getElementById("btn-start-camera");
-  const btnBack = document.getElementById("btn-back");
-  const btnCapture = document.getElementById("btn-capture");
+  /* -------------------- Konstanten -------------------- */
 
-  const video = document.getElementById("camera-preview");
-  const overlayCanvas = document.getElementById("overlay-canvas");
-  const overlayCtx = overlayCanvas.getContext("2d");
+  const STORAGE_KEY_PROJECTS = 'tmm_projects';
+  const STORAGE_KEY_THEME = 'tmm_theme';
 
-  const sliderOverlayCount = document.getElementById("slider-overlay-count");
-  const labelOverlayCount = document.getElementById("label-overlay-count");
+  /* -------------------- State -------------------- */
 
-  const sliderOpacity = document.getElementById("slider-opacity");
-  const labelOpacity = document.getElementById("label-opacity");
-
-  const errorMessage = document.getElementById("error-message");
-
-  // ----------------------------- State / Settings --------------------------
   const state = {
-    stream: null,          // MediaStream der Kamera
-    frames: [],            // Array von Canvas-Elementen (letzte Frames)
-    maxStoredFrames: 20,   // Sicherheitslimit
-    overlayCount: 3,       // wie viele Frames als Ghost anzeigen
-    overlayOpacity: 0.5,   // Basis-Transparenz
-    overlayLoopRunning: false
+    projects: [],
+    currentProjectId: null,
+    stream: null,
+    overlayCount: 3,
+    overlayAlpha: 0.5
   };
 
-  // Hilfsfunktion: Screens umschalten
-  function showScreen(name) {
-    screenStart.classList.remove("screen--active");
-    screenCamera.classList.remove("screen--active");
+  /* -------------------- DOM-Elemente -------------------- */
 
-    if (name === "start") {
-      screenStart.classList.add("screen--active");
-    } else if (name === "camera") {
-      screenCamera.classList.add("screen--active");
+  const els = {};
+
+  function cacheDom() {
+    els.screenHome = document.getElementById('screen-home');
+    els.screenCamera = document.getElementById('screen-camera');
+
+    els.themeToggle = document.getElementById('themeToggle');
+
+    els.btnNewProject = document.getElementById('btnNewProject');
+    els.projectList = document.getElementById('projectList');
+    els.projectsEmptyHint = document.getElementById('projectsEmptyHint');
+
+    els.btnBackHome = document.getElementById('btnBackHome');
+    els.currentProjectName = document.getElementById('currentProjectName');
+    els.currentFrameInfo = document.getElementById('currentFrameInfo');
+
+    els.cameraVideo = document.getElementById('cameraVideo');
+    els.overlayCanvas = document.getElementById('overlayCanvas');
+
+    els.btnCapture = document.getElementById('btnCapture');
+    els.btnUndoFrame = document.getElementById('btnUndoFrame');
+    els.frameList = document.getElementById('frameList');
+
+    els.overlayCount = document.getElementById('overlayCount');
+    els.overlayCountLabel = document.getElementById('overlayCountLabel');
+    els.overlayAlpha = document.getElementById('overlayAlpha');
+    els.overlayAlphaLabel = document.getElementById('overlayAlphaLabel');
+  }
+
+  /* -------------------- Helper: Storage -------------------- */
+
+  function loadProjects() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_PROJECTS);
+      state.projects = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.warn('Konnte Projekte nicht laden:', e);
+      state.projects = [];
     }
   }
 
-  // ----------------------------- Kamera-Setup ------------------------------
+  function saveProjects() {
+    try {
+      localStorage.setItem(STORAGE_KEY_PROJECTS, JSON.stringify(state.projects));
+    } catch (e) {
+      console.warn('Konnte Projekte nicht speichern:', e);
+    }
+  }
+
+  function findProject(id) {
+    return state.projects.find(p => p.id === id) || null;
+  }
+
+  function createProject(name) {
+    const now = new Date().toISOString();
+    const project = {
+      id: 'p-' + Date.now() + '-' + Math.random().toString(16).slice(2),
+      name: name || 'Neues Projekt',
+      createdAt: now,
+      updatedAt: now,
+      frames: []
+    };
+    state.projects.unshift(project);
+    saveProjects();
+    return project;
+  }
+
+  function deleteProject(id) {
+    state.projects = state.projects.filter(p => p.id !== id);
+    saveProjects();
+  }
+
+  /* -------------------- Helper: Theme -------------------- */
+
+  function loadTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY_THEME);
+    const body = document.body;
+    if (saved === 'blue') {
+      body.classList.remove('theme-pink');
+      body.classList.add('theme-blue');
+      els.themeToggle.textContent = '🎨 Blau';
+    } else {
+      body.classList.remove('theme-blue');
+      body.classList.add('theme-pink');
+      els.themeToggle.textContent = '🎨 Pink';
+    }
+  }
+
+  function toggleTheme() {
+    const body = document.body;
+    const isPink = body.classList.contains('theme-pink');
+    if (isPink) {
+      body.classList.remove('theme-pink');
+      body.classList.add('theme-blue');
+      els.themeToggle.textContent = '🎨 Blau';
+      localStorage.setItem(STORAGE_KEY_THEME, 'blue');
+    } else {
+      body.classList.remove('theme-blue');
+      body.classList.add('theme-pink');
+      els.themeToggle.textContent = '🎨 Pink';
+      localStorage.setItem(STORAGE_KEY_THEME, 'pink');
+    }
+  }
+
+  /* -------------------- UI: Screens -------------------- */
+
+  function showScreen(name) {
+    if (name === 'home') {
+      els.screenHome.classList.add('screen--active');
+      els.screenCamera.classList.remove('screen--active');
+    } else {
+      els.screenHome.classList.remove('screen--active');
+      els.screenCamera.classList.add('screen--active');
+    }
+  }
+
+  /* -------------------- UI: Projektliste -------------------- */
+
+  function renderProjects() {
+    const list = state.projects;
+    els.projectList.innerHTML = '';
+
+    if (!list.length) {
+      els.projectsEmptyHint.style.display = 'block';
+      return;
+    }
+
+    els.projectsEmptyHint.style.display = 'none';
+
+    list.forEach(project => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.dataset.id = project.id;
+
+      const meta = document.createElement('div');
+      meta.className = 'project-meta';
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'project-name';
+      nameEl.textContent = project.name;
+
+      const infoEl = document.createElement('div');
+      infoEl.className = 'project-info';
+      const frameCount = project.frames.length;
+      infoEl.textContent = `${frameCount} Bild${frameCount === 1 ? '' : 'er'}`;
+
+      meta.appendChild(nameEl);
+      meta.appendChild(infoEl);
+
+      const actions = document.createElement('div');
+      actions.className = 'project-actions';
+
+      const openBtn = document.createElement('button');
+      openBtn.className = 'btn-secondary';
+      openBtn.type = 'button';
+      openBtn.textContent = 'Öffnen';
+      openBtn.addEventListener('click', () => {
+        openProject(project.id);
+      });
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'btn-icon';
+      delBtn.type = 'button';
+      delBtn.textContent = '🗑';
+      delBtn.addEventListener('click', () => {
+        if (confirm(`Projekt "${project.name}" wirklich löschen?`)) {
+          if (state.currentProjectId === project.id) {
+            state.currentProjectId = null;
+          }
+          deleteProject(project.id);
+          renderProjects();
+        }
+      });
+
+      actions.appendChild(openBtn);
+      actions.appendChild(delBtn);
+
+      card.appendChild(meta);
+      card.appendChild(actions);
+
+      els.projectList.appendChild(card);
+    });
+  }
+
+  /* -------------------- Kamera / Frames -------------------- */
 
   async function startCamera() {
-    errorMessage.hidden = true;
-    errorMessage.textContent = "";
-
+    if (state.stream) return;
     try {
-      // Versuchen, die Hauptkamera (Rückkamera) zu benutzen
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: { ideal: "environment" }
+          facingMode: 'environment'
         },
         audio: false
       });
-
       state.stream = stream;
-      video.srcObject = stream;
-
-      // Sobald wir die Videogröße kennen, passen wir das Overlay-Canvas an.
-      video.addEventListener(
-        "loadedmetadata",
-        () => {
-          resizeOverlayToVideo();
-          startOverlayLoop();
-        },
-        { once: true }
-      );
+      els.cameraVideo.srcObject = stream;
     } catch (err) {
-      console.error("Kamera konnte nicht gestartet werden:", err);
-      errorMessage.textContent =
-        "Kamera konnte nicht gestartet werden. Bitte Berechtigungen prüfen oder im Handy-Browser mit HTTPS öffnen.";
-      errorMessage.hidden = false;
+      alert('Kamera-Zugriff nicht möglich: ' + err.message);
     }
   }
 
   function stopCamera() {
-    if (state.stream) {
-      state.stream.getTracks().forEach((track) => track.stop());
-      state.stream = null;
+    if (!state.stream) return;
+    state.stream.getTracks().forEach(t => t.stop());
+    state.stream = null;
+    els.cameraVideo.srcObject = null;
+  }
+
+  function getCurrentProject() {
+    return findProject(state.currentProjectId);
+  }
+
+  function updateFrameInfo() {
+    const project = getCurrentProject();
+    if (!project) {
+      els.currentFrameInfo.textContent = '0 Bilder';
+      return;
     }
-    state.frames = [];
-    state.overlayLoopRunning = false;
+    const count = project.frames.length;
+    els.currentFrameInfo.textContent = `${count} Bild${count === 1 ? '' : 'er'}`;
   }
 
-  function resizeOverlayToVideo() {
-    // Video-Dimensionen auslesen
-    const w = video.videoWidth;
-    const h = video.videoHeight;
+  function renderFrameThumbnails() {
+    const project = getCurrentProject();
+    els.frameList.innerHTML = '';
+    if (!project || !project.frames.length) return;
 
-    if (!w || !h) return;
+    project.frames.forEach((dataUrl, index) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'frame-thumb';
 
-    overlayCanvas.width = w;
-    overlayCanvas.height = h;
+      const img = document.createElement('img');
+      img.src = dataUrl;
+
+      const label = document.createElement('span');
+      label.textContent = index + 1;
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(label);
+      els.frameList.appendChild(wrapper);
+    });
   }
-
-  // ----------------------------- Frames aufnehmen --------------------------
 
   function captureFrame() {
-    if (!state.stream || !video.videoWidth || !video.videoHeight) {
-      console.warn("Kamera noch nicht bereit.");
+    const project = getCurrentProject();
+    if (!project) return;
+
+    const video = els.cameraVideo;
+    if (!video.videoWidth || !video.videoHeight) {
+      alert('Kamera noch nicht bereit. Bitte einen Moment warten.');
       return;
     }
 
-    // Temporäres Canvas in Videogröße
-    const tmpCanvas = document.createElement("canvas");
-    tmpCanvas.width = video.videoWidth;
-    tmpCanvas.height = video.videoHeight;
-    const tmpCtx = tmpCanvas.getContext("2d");
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Aktuellen Videoframe hineinzeichnen
-    tmpCtx.drawImage(video, 0, 0, tmpCanvas.width, tmpCanvas.height);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+    project.frames.push(dataUrl);
+    project.updatedAt = new Date().toISOString();
+    saveProjects();
 
-    // Canvas in Array speichern
-    state.frames.push(tmpCanvas);
-
-    // Ältere Frames auf maxStoredFrames begrenzen
-    if (state.frames.length > state.maxStoredFrames) {
-      state.frames.splice(0, state.frames.length - state.maxStoredFrames);
-    }
+    updateFrameInfo();
+    renderFrameThumbnails();
+    updateOverlayFromProject();
   }
 
-  // ----------------------------- Overlay-Loop ------------------------------
+  function undoLastFrame() {
+    const project = getCurrentProject();
+    if (!project || !project.frames.length) return;
+    project.frames.pop();
+    project.updatedAt = new Date().toISOString();
+    saveProjects();
 
-  function startOverlayLoop() {
-    if (state.overlayLoopRunning) return;
-    state.overlayLoopRunning = true;
-
-    function loop() {
-      if (!state.overlayLoopRunning) return;
-
-      drawOverlay();
-      requestAnimationFrame(loop);
-    }
-    loop();
+    updateFrameInfo();
+    renderFrameThumbnails();
+    updateOverlayFromProject();
   }
 
-  function drawOverlay() {
-    const w = overlayCanvas.width;
-    const h = overlayCanvas.height;
-    if (!w || !h) return;
+  function updateOverlayFromProject() {
+    const project = getCurrentProject();
+    const frames = project ? project.frames : [];
+    const count = Math.min(state.overlayCount, frames.length);
+    const lastFrames = frames.slice(-count); // letzte N Frames
 
-    overlayCtx.clearRect(0, 0, w, h);
+    const canvas = els.overlayCanvas;
+    const video = els.cameraVideo;
+    const ctx = canvas.getContext('2d');
 
-    // Wenn keine Frames vorhanden sind → nichts zeichnen
-    if (state.frames.length === 0) return;
+    // Canvas auf Video-Größe anpassen
+    const width = video.clientWidth || 300;
+    const height = video.clientHeight || 400;
+    canvas.width = width;
+    canvas.height = height;
 
-    // nur die letzten N Frames anzeigen
-    const count = Math.min(state.overlayCount, state.frames.length);
-    const startIndex = state.frames.length - count;
-    const subset = state.frames.slice(startIndex);
+    ctx.clearRect(0, 0, width, height);
 
-    subset.forEach((frameCanvas, index) => {
-      // einfache Falloff-Formel:
-      // neuere Frames sind stärker sichtbar als ältere
-      const factor = (index + 1) / subset.length; // 0..1
-      overlayCtx.globalAlpha = state.overlayOpacity * factor;
-      overlayCtx.drawImage(frameCanvas, 0, 0, w, h);
+    if (!count) return;
+
+    // Jedes Bild halbtransparent übereinander zeichnen
+    const alphaPerImage = state.overlayAlpha / count;
+
+    let loaded = 0;
+    lastFrames.forEach(src => {
+      const img = new Image();
+      img.onload = () => {
+        ctx.globalAlpha = alphaPerImage;
+        ctx.drawImage(img, 0, 0, width, height);
+        loaded++;
+      };
+      img.src = src;
+    });
+  }
+
+  /* -------------------- Projekt öffnen / schließen -------------------- */
+
+  function openProject(id) {
+    state.currentProjectId = id;
+    const project = getCurrentProject();
+    if (!project) return;
+
+    els.currentProjectName.textContent = project.name || 'ToyMovie Maker – Kamera';
+    updateFrameInfo();
+    renderFrameThumbnails();
+    showScreen('camera');
+    startCamera().then(() => {
+      updateOverlayFromProject();
+    });
+  }
+
+  function openNewProjectFlow() {
+    const defaultName = 'Projekt ' + (state.projects.length + 1);
+    const name = prompt('Name für das neue Projekt:', defaultName) || defaultName;
+    const project = createProject(name);
+    renderProjects();
+    openProject(project.id);
+  }
+
+  /* -------------------- Events binden -------------------- */
+
+  function bindEvents() {
+    els.themeToggle.addEventListener('click', toggleTheme);
+    els.btnNewProject.addEventListener('click', openNewProjectFlow);
+
+    els.btnBackHome.addEventListener('click', () => {
+      stopCamera();
+      showScreen('home');
+      state.currentProjectId = null;
+      renderProjects();
     });
 
-    overlayCtx.globalAlpha = 1.0;
+    els.btnCapture.addEventListener('click', captureFrame);
+    els.btnUndoFrame.addEventListener('click', undoLastFrame);
+
+    // Slider Overlay-Anzahl
+    els.overlayCount.addEventListener('input', () => {
+      state.overlayCount = parseInt(els.overlayCount.value, 10) || 1;
+      els.overlayCountLabel.textContent = String(state.overlayCount);
+      updateOverlayFromProject();
+    });
+
+    // Slider Transparenz
+    els.overlayAlpha.addEventListener('input', () => {
+      state.overlayAlpha = parseFloat(els.overlayAlpha.value) || 0;
+      els.overlayAlphaLabel.textContent = state.overlayAlpha.toFixed(2);
+      updateOverlayFromProject();
+    });
+
+    // Bei Größenänderung neu zeichnen (Rotation etc.)
+    window.addEventListener('resize', () => {
+      updateOverlayFromProject();
+    });
   }
 
-  // ----------------------------- Event-Handler -----------------------------
+  /* -------------------- Init -------------------- */
 
-  // Startscreen → Kamera
-  btnStartCamera.addEventListener("click", () => {
-    showScreen("camera");
-    startCamera();
-  });
+  function init() {
+    cacheDom();
+    loadTheme();
+    loadProjects();
+    renderProjects();
+    bindEvents();
 
-  // Zurück zum Start
-  btnBack.addEventListener("click", () => {
-    stopCamera();
-    showScreen("start");
-  });
+    // Labels initial setzen
+    els.overlayCountLabel.textContent = String(state.overlayCount);
+    els.overlayAlphaLabel.textContent = state.overlayAlpha.toFixed(2);
+  }
 
-  // Foto aufnehmen
-  btnCapture.addEventListener("click", () => {
-    captureFrame();
-  });
-
-  // Slider Overlay-Count
-  sliderOverlayCount.addEventListener("input", () => {
-    const value = Number(sliderOverlayCount.value);
-    state.overlayCount = value;
-    labelOverlayCount.textContent = value;
-  });
-
-  // Slider Opacity
-  sliderOpacity.addEventListener("input", () => {
-    const value = Number(sliderOpacity.value);
-    state.overlayOpacity = value;
-    labelOpacity.textContent = value.toFixed(2);
-  });
-
-  // Beim Resize (z. B. Device Rotation) das Overlay-Canvas aktualisieren
-  window.addEventListener("resize", () => {
-    resizeOverlayToVideo();
-  });
-
-  // Initial: Startscreen anzeigen
-  showScreen("start");
+  document.addEventListener('DOMContentLoaded', init);
 })();
