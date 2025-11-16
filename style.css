@@ -1,0 +1,202 @@
+/* ============================================================================
+ * ToyMovie Maker – Web-Prototyp
+ * Datei   : style.css
+ * Zweck   : Einfaches, kinderfreundliches Layout (Pink / Hellblau)
+ * ========================================================================== */
+
+/* Basis-Reset sehr simpel */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #fff5ff 0, #f0f6ff 50%, #e0e7ff 100%);
+  color: #333;
+}
+
+/* Screens umschalten über .screen--active */
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.screen--active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------
+ * Startscreen
+ * --------------------------------------------------------- */
+
+.app-header {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.app-title {
+  font-size: 2.3rem;
+  color: #ff3da2; /* Pink */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-subtitle {
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #666;
+}
+
+.start-actions {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.start-hint {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* ------------------------------------------------------------
+ * Buttons
+ * --------------------------------------------------------- */
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #ff3da2, #ff7edb);
+  color: #fff;
+  box-shadow: 0 6px 12px rgba(255, 61, 162, 0.4);
+}
+
+.btn--icon {
+  background: #ffffff;
+  color: #4b5563;
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn--capture {
+  background: linear-gradient(135deg, #00b4ff, #4f46e5);
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.4);
+}
+
+/* ------------------------------------------------------------
+ * Kamera-Screen
+ * --------------------------------------------------------- */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.top-bar__title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Kamera + Overlay im Verhältnis 16:9 in einem Container */
+.camera-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Video und Canvas füllen den Container */
+#camera-preview,
+#overlay-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#overlay-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* nicht klickbar */
+}
+
+/* Controls unterhalb der Kamera */
+.controls {
+  max-width: 700px;
+  margin: 16px auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.controls__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls__row--slider {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controls__row label {
+  font-size: 0.95rem;
+}
+
+.controls__row input[type="range"] {
+  flex: 1;
+}
+
+/* kleine Hinweise */
+.controls__hint {
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+}
+
+.controls__error {
+  font-size: 0.9rem;
+  color: #b91c1c;
+  text-align: center;
+}
+
+/* etwas Abstand auf größeren Displays */
+@media (min-width: 768px) {
+  .screen {
+    padding: 24px 32px;
+  }
+}
