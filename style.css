@@ -1,202 +1,342 @@
-/* ============================================================================
- * ToyMovie Maker – Web-Prototyp
- * Datei   : style.css
- * Zweck   : Einfaches, kinderfreundliches Layout (Pink / Hellblau)
- * ========================================================================== */
+/* ============================================================
+ * ToyMovie Maker – Styles
+ * Version: v0.2.0
+ * ========================================================== */
 
-/* Basis-Reset sehr simpel */
+/* ---------- Reset / Basis ---------- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
   padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #fff5ff 0, #f0f6ff 50%, #e0e7ff 100%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: #f3f5ff;
   color: #333;
 }
 
-/* Screens umschalten über .screen--active */
+/* ---------- Theme-Farben über CSS-Variablen ---------- */
+
+body {
+  --accent: #ff3aa8;
+  --accent-soft: #ffe3f4;
+  --accent-strong: #ff1493;
+  --bg-gradient: linear-gradient(180deg, #f3f5ff 0%, #ffe9f8 100%);
+  --btn-text: #ffffff;
+}
+
+/* Pink-Theme (Standard) */
+body.theme-pink {
+  --accent: #ff3aa8;
+  --accent-soft: #ffe3f4;
+  --accent-strong: #ff1493;
+  --bg-gradient: linear-gradient(180deg, #f3f5ff 0%, #ffe9f8 100%);
+}
+
+/* Blau-Theme */
+body.theme-blue {
+  --accent: #4b8dff;
+  --accent-soft: #e1ecff;
+  --accent-strong: #1f6dff;
+  --bg-gradient: linear-gradient(180deg, #f3f5ff 0%, #e3f1ff 100%);
+}
+
+/* ---------- Layout-Grundstruktur ---------- */
+
+body {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top-Bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Theme-Toggle-Button */
+.theme-toggle {
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Screens */
 .screen {
   display: none;
-  min-height: 100vh;
   padding: 16px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .screen--active {
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
 
-/* ------------------------------------------------------------
- * Startscreen
- * --------------------------------------------------------- */
+/* ---------- Hero / Startseite ---------- */
 
-.app-header {
-  text-align: center;
-  margin-top: 32px;
+.hero {
+  margin-top: 24px;
+  padding: 24px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
 }
 
-.app-title {
-  font-size: 2.3rem;
-  color: #ff3da2; /* Pink */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: var(--accent-strong);
 }
 
-.app-subtitle {
-  margin-top: 8px;
-  font-size: 1rem;
+.hero-sub {
+  margin: 0 0 16px;
+  font-size: 15px;
   color: #666;
 }
 
-.start-actions {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.start-hint {
-  text-align: center;
-  font-size: 0.9rem;
+.hero-text {
+  font-size: 14px;
   color: #555;
+  margin-bottom: 20px;
 }
 
-/* ------------------------------------------------------------
- * Buttons
- * --------------------------------------------------------- */
+/* ---------- Buttons ---------- */
 
-.btn {
-  border: none;
-  border-radius: 999px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
-}
-
-.btn:active {
-  transform: translateY(1px);
-  box-shadow: none;
-}
-
-.btn--primary {
-  background: linear-gradient(135deg, #ff3da2, #ff7edb);
-  color: #fff;
-  box-shadow: 0 6px 12px rgba(255, 61, 162, 0.4);
-}
-
-.btn--icon {
-  background: #ffffff;
-  color: #4b5563;
-  padding: 8px 16px;
-  border-radius: 999px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-}
-
-.btn--capture {
-  background: linear-gradient(135deg, #00b4ff, #4f46e5);
-  color: #fff;
-  font-size: 1.1rem;
-  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.4);
-}
-
-/* ------------------------------------------------------------
- * Kamera-Screen
- * --------------------------------------------------------- */
-
-.top-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.top-bar__title {
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-/* Kamera + Overlay im Verhältnis 16:9 in einem Container */
-.camera-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
-
-/* Video und Canvas füllen den Container */
-#camera-preview,
-#overlay-canvas {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-#overlay-canvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none; /* nicht klickbar */
-}
-
-/* Controls unterhalb der Kamera */
-.controls {
-  max-width: 700px;
-  margin: 16px auto 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.controls__row {
-  display: flex;
+.btn-primary {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--btn-text);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
 }
 
-.controls__row--slider {
+.btn-full {
+  width: 100%;
+}
+
+.btn-secondary {
+  border-radius: 999px;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--accent-soft);
+  color: #444;
+}
+
+.btn-icon {
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  padding: 6px 12px;
+}
+
+/* ---------- Projektliste ---------- */
+
+.projects {
+  margin-top: 24px;
+  padding: 0 4px 40px;
+}
+
+.projects h2 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.projects-hint {
+  font-size: 13px;
+  color: #666;
+}
+
+.project-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-card {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.9);
+}
+
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-info {
+  font-size: 12px;
+  color: #777;
+}
+
+.project-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ---------- Kamera-Ansicht ---------- */
+
+.camera-header {
+  display: flex;
+  align-items: center;
   gap: 12px;
+  margin-top: 16px;
 }
 
-.controls__row label {
-  font-size: 0.95rem;
+.camera-title {
+  display: flex;
+  flex-direction: column;
 }
 
-.controls__row input[type="range"] {
-  flex: 1;
+.camera-title > div:first-child {
+  font-weight: 600;
+  font-size: 14px;
 }
 
-/* kleine Hinweise */
-.controls__hint {
-  font-size: 0.85rem;
-  color: #555;
+.camera-frameinfo {
+  font-size: 12px;
+  color: #666;
+}
+
+.camera-card {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.14);
+}
+
+/* Kamera-Container */
+.camera-view {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 3 / 4;
+}
+
+.camera-view video,
+.camera-view canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-controls {
+  margin-top: 16px;
+}
+
+/* Slider-Reihen */
+
+.slider-row {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.slider-row label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.slider-row input[type="range"] {
+  width: 100%;
+}
+
+/* Frames-Thumbnails */
+
+.frames-strip {
+  margin-top: 16px;
+}
+
+.frames-strip h3 {
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.frame-list {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.frame-thumb {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 0 0 64px;
+  height: 64px;
+  background: #ccc;
+}
+
+.frame-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.frame-thumb span {
+  position: absolute;
+  left: 4px;
+  bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 4px rgba(0,0,0,0.7);
+}
+
+/* Footer */
+
+.footer {
+  margin-top: auto;
+  padding: 8px 12px 14px;
+  font-size: 11px;
   text-align: center;
-}
-
-.controls__error {
-  font-size: 0.9rem;
-  color: #b91c1c;
-  text-align: center;
-}
-
-/* etwas Abstand auf größeren Displays */
-@media (min-width: 768px) {
-  .screen {
-    padding: 24px 32px;
-  }
+  color: #777;
+  opacity: 0.9;
 }
