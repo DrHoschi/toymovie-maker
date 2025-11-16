@@ -2,88 +2,108 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>ToyMovie Maker – Web-Prototyp</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-  <!-- Basis-Styles -->
+  <title>ToyMovie Maker – Prototyp</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="theme-pink">
   <!-- =========================================================
-       SCREEN: START
+       TOP-BAR / THEME-TOGGLE
        ========================================================= -->
-  <main id="screen-start" class="screen screen--active">
-    <div class="app-header">
-      <h1 class="app-title">ToyMovie Maker</h1>
-      <p class="app-subtitle">Stop-Motion mit LEGO, Playmobil & Barbie</p>
-    </div>
+  <header class="topbar">
+    <div class="topbar-title">ToyMovie Maker</div>
+    <button id="themeToggle" class="theme-toggle" type="button">
+      🎨 Pink
+    </button>
+  </header>
 
-    <section class="start-actions">
-      <button id="btn-start-camera" class="btn btn--primary">
-        🎥 Zur Kamera / Prototyp starten
-      </button>
-
-      <p class="start-hint">
-        Dieser Prototyp läuft im Browser und nutzt die Handy-Kamera.<br>
-        Auf dem Smartphone bitte im <strong>Hochformat</strong> testen.
+  <!-- =========================================================
+       SCREEN: HOME / PROJEKTLISTE
+       ========================================================= -->
+  <main id="screen-home" class="screen screen--active">
+    <section class="hero">
+      <h1>ToyMovie Maker</h1>
+      <p class="hero-sub">
+        Stop-Motion mit LEGO, Playmobil &amp; Barbie
       </p>
+      <p class="hero-text">
+        Dieser Prototyp läuft im Browser und nutzt die Handy-Kamera.<br>
+        Auf dem Smartphone bitte im <b>Hochformat</b> testen.
+      </p>
+
+      <button id="btnNewProject" class="btn-primary">
+        🎬 Neues Projekt starten
+      </button>
+    </section>
+
+    <section class="projects">
+      <h2>Meine Projekte</h2>
+      <p class="projects-hint" id="projectsEmptyHint">
+        Noch keine Projekte. Starte oben ein neues Stop-Motion-Projekt.
+      </p>
+      <div id="projectList" class="project-list"><!-- Cards per Projekt --></div>
     </section>
   </main>
 
   <!-- =========================================================
-       SCREEN: CAMERA / ONION-SKIN
+       SCREEN: KAMERA / AUFNAHME
        ========================================================= -->
   <main id="screen-camera" class="screen">
-    <header class="top-bar">
-      <button id="btn-back" class="btn btn--icon" title="Zurück zum Start">
-        ⬅
-      </button>
-      <h2 class="top-bar__title">ToyMovie Maker – Kamera</h2>
+    <header class="camera-header">
+      <button id="btnBackHome" class="btn-icon" type="button">⬅︎</button>
+      <div class="camera-title">
+        <div id="currentProjectName">ToyMovie Maker – Kamera</div>
+        <div id="currentFrameInfo" class="camera-frameinfo">0 Bilder</div>
+      </div>
     </header>
 
-    <section class="camera-wrapper">
-      <!-- Video zeigt den Live-Stream der Kamera -->
-      <video id="camera-preview" autoplay playsinline></video>
+    <section class="camera-card">
+      <div class="camera-view">
+        <!-- Live-Kamera -->
+        <video id="cameraVideo" playsinline autoplay muted></video>
+        <!-- Overlay für Ghosting der letzten Frames -->
+        <canvas id="overlayCanvas"></canvas>
+      </div>
 
-      <!-- Canvas liegt transparent darüber und malt Ghost-Frames -->
-      <canvas id="overlay-canvas"></canvas>
-    </section>
-
-    <section class="controls">
-      <div class="controls__row">
-        <button id="btn-capture" class="btn btn--capture">
+      <div class="camera-controls">
+        <button id="btnCapture" class="btn-primary btn-full" type="button">
           ⭕ Foto aufnehmen
         </button>
+
+        <div class="slider-row">
+          <label for="overlayCount">
+            Overlay-Bilder: <span id="overlayCountLabel">3</span>
+          </label>
+          <input id="overlayCount" type="range" min="1" max="5" value="3">
+        </div>
+
+        <div class="slider-row">
+          <label for="overlayAlpha">
+            Transparenz: <span id="overlayAlphaLabel">0.5</span>
+          </label>
+          <input id="overlayAlpha" type="range" min="0" max="1" step="0.05" value="0.5">
+        </div>
+
+        <div class="frame-tools">
+          <button id="btnUndoFrame" class="btn-secondary" type="button">
+            ↩︎ Letztes Bild löschen
+          </button>
+        </div>
+
+        <div class="frames-strip">
+          <h3>Aufgenommene Bilder</h3>
+          <div id="frameList" class="frame-list">
+            <!-- Thumbnails der Frames -->
+          </div>
+        </div>
       </div>
-
-      <div class="controls__row controls__row--slider">
-        <label for="slider-overlay-count">
-          Overlay-Bilder:
-          <span id="label-overlay-count">3</span>
-        </label>
-        <input type="range" id="slider-overlay-count" min="1" max="5" value="3">
-      </div>
-
-      <div class="controls__row controls__row--slider">
-        <label for="slider-opacity">
-          Transparenz:
-          <span id="label-opacity">0.5</span>
-        </label>
-        <input type="range" id="slider-opacity" min="0" max="1" step="0.05" value="0.5">
-      </div>
-
-      <p class="controls__hint">
-        Tipp: Mach mehrere Fotos hintereinander – die letzten Frames
-        erscheinen als „Geisterbilder“ über dem Live-Bild.
-      </p>
-
-      <p class="controls__error" id="error-message" hidden></p>
     </section>
   </main>
 
-  <!-- =========================================================
-       SCRIPTS
-       ========================================================= -->
+  <footer class="footer">
+    drhoschi.github.io – ToyMovie Maker Prototyp
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>
