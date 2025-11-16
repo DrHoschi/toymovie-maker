@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>ToyMovie Maker – Prototype</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Dein CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Tab-Module -->
+    <script src="camera.js" defer></script>
+    <script src="editor.js" defer></script>
+    <script src="player.js" defer></script>
+
+    <!-- App-Logik -->
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         TAB: KAMERA
+         ========================================================= -->
+    <div id="tab-camera" style="display:none;">
+        <h2>Kamera</h2>
+
+        <div class="camera-wrapper">
+            <video id="cam_video" autoplay playsinline></video>
+            <canvas id="cam_overlay"></canvas>
+        </div>
+
+        <button id="cam_capture">📸 Foto aufnehmen</button>
+    </div>
+
+    <!-- =========================================================
+         TAB: EDITOR
+         ========================================================= -->
+    <div id="tab-editor" style="display:none;">
+        <h2>Editor</h2>
+
+        <div id="editor_timeline"></div>
+    </div>
+
+    <!-- =========================================================
+         TAB: PLAYER
+         ========================================================= -->
+    <div id="tab-player" style="display:none;">
+        <h2>Player</h2>
+
+        <div id="player_root">
+            <div id="player_info">Keine Daten</div>
+
+            <div class="player-view">
+                <img id="player_img" alt="Frame" />
+            </div>
+
+            <div class="player-controls">
+                <button id="player_prev">◀︎</button>
+                <button id="player_playPause">▶︎</button>
+                <button id="player_next">▶︎</button>
+                <button id="player_fullscreen">⛶</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
