@@ -1,14 +1,16 @@
 /* ============================================================================
  * Datei : app.js
  * Zweck : Zentrale App-Logik – Startscreen + Tabs + Projekte + Kamera
- * Version: v1.2 final
+ * Version: v1.3 final (ID-Fallbacks + iOS-Safari-Fix)
  *
- * Features:
- *  - Startscreen mit Light/Pro-Auswahl, Neues Projekt, Bibliothek, Settings
- *  - Projekt-Screen mit Tabs (Kamera / Editor / Player)
- *  - Kamera-Start über getUserMedia
- *  - Foto aufnehmen → Frame im Projekt speichern
- *  - PlayerTab aktualisieren, damit man die Bilder anschauen kann
+ * WICHTIGE PUNKTE
+ * - Unterstützt alte IDs aus deinem Prototyp:
+ *     cameraVideo / overlayCanvas / btnCapture
+ *   UND die neuen:
+ *     cam_video / cam_overlay / cam_capture
+ * - Startet Kamera mit getUserMedia + video.play()
+ * - Button "Foto aufnehmen" speichert Frames ins Projekt
+ * - PlayerTab.onProjectLoaded(project) bekommt immer den aktuellen Stand
  * ============================================================================ */
 
 (function () {
@@ -22,7 +24,7 @@
   let screenHome;
   let screenProject;
 
-  // Buttons Home
+  // Home-Buttons
   let btnHomeLight;
   let btnHomePro;
   let btnHomeNewProject;
@@ -42,9 +44,9 @@
   let btnBackHome;
 
   // Kamera-Elemente
-  let camVideo;
-  let camOverlay;
-  let btnCamCapture;
+  let camVideo;       // <video>
+  let camOverlay;     // <canvas> für Ghost / später
+  let btnCamCapture;  // Button "Foto aufnehmen"
 
   // Zustand
   let currentProject = null;
@@ -64,7 +66,7 @@
     bindTabEvents();
     bindCameraEvents();
 
-    // Externe Module initialisieren (falls vorhanden)
+    // Externe Module initialisieren (wenn vorhanden)
     if (window.CameraTab && typeof CameraTab.init === "function") {
       CameraTab.init();
     }
@@ -79,31 +81,49 @@
   });
 
   /* -------------------------------------------------------------------------
-   * DOM-Caching
+   * DOM-Caching (mit Fallback auf alte IDs)
    * ---------------------------------------------------------------------- */
 
   function cacheDom() {
     // Screens
-    screenHome = document.getElementById("screen-home");
-    screenProject = document.getElementById("screen-project");
+    screenHome = document.getElementById("screen-home") || null;
+    screenProject = document.getElementById("screen-project") || null;
 
     // Home-Buttons
-    btnHomeLight = document.getElementById("home_light");
-    btnHomePro = document.getElementById("home_pro");
-    btnHomeNewProject = document.getElementById("home_newProject");
-    btnHomeLibrary = document.getElementById("home_library");
-    btnHomeSettings = document.getElementById("home_settings");
+    btnHomeLight = document.getElementById("home_light") || null;
+    btnHomePro = document.getElementById("home_pro") || null;
+    btnHomeNewProject = document.getElementById("home_newProject") || null;
+    btnHomeLibrary = document.getElementById("home_library") || null;
+    btnHomeSettings = document.getElementById("home_settings") || null;
 
     // Tab-Buttons
-    btnTabCamera = document.getElementById("btn_tab_camera");
-    btnTabEditor = document.getElementById("btn_tab_editor");
-    btnTabPlayer = document.getElementById("btn_tab_player");
-    btnBackHome = document.getElementById("btn_back_home");
+    btnTabCamera = document.getElementById("btn_tab_camera") || null;
+    btnTabEditor = document.getElementById("btn_tab_editor") || null;
+    btnTabPlayer = document.getElementById("btn_tab_player") || null;
+    btnBackHome = document.getElementById("btn_back_home") || null;
 
-    // Kamera
-    camVideo = document.getElementById("cam_video");
-    camOverlay = document.getElementById("cam_overlay");
-    btnCamCapture = document.getElementById("cam_capture");
+    // Kamera-Elemente:
+    // Neue IDs (cam_video / cam_overlay / cam_capture) ODER alte IDs (cameraVideo / overlayCanvas / btnCapture)
+    camVideo =
+      document.getElementById("cam_video") ||
+      document.getElementById("cameraVideo") ||
+      null;
+
+    camOverlay =
+      document.getElementById("cam_overlay") ||
+      document.getElementById("overlayCanvas") ||
+      null;
+
+    btnCamCapture =
+      document.getElementById("cam_capture") ||
+      document.getElementById("btnCapture") ||
+      null;
+
+    console.log("[App] cacheDom:", {
+      camVideo: !!camVideo,
+      camOverlay: !!camOverlay,
+      btnCamCapture: !!btnCamCapture,
+    });
   }
 
   /* -------------------------------------------------------------------------
@@ -115,7 +135,6 @@
       btnHomeLight.addEventListener("click", () => {
         currentMode = "light";
         console.log("[App] Light-Version ausgewählt");
-        // Wenn du später Settings.js wieder nutzen willst:
         if (window.AppSettings && AppSettings.saveMode) {
           AppSettings.saveMode("light");
         }
@@ -138,15 +157,17 @@
 
     if (btnHomeLibrary) {
       btnHomeLibrary.addEventListener("click", () => {
-        // TODO: Echte Bibliothek später
-        alert("Bibliothek kommt später – hier sollen Import/Export & Projektauswahl hin.");
+        alert(
+          "Bibliothek ist noch Platzhalter.\nHier kommen später Import / Export und Projekt-Auswahl hinein."
+        );
       });
     }
 
     if (btnHomeSettings) {
       btnHomeSettings.addEventListener("click", () => {
-        // TODO: Settings-Screen später wieder anbinden
-        alert("Einstellungen kommen später – Theme, Sprache, Mode etc.");
+        alert(
+          "Einstellungen-Screen kommt später.\nDort kannst du dann Theme, Sprache, usw. einstellen."
+        );
       });
     }
   }
@@ -177,6 +198,10 @@
   function bindCameraEvents() {
     if (btnCamCapture) {
       btnCamCapture.addEventListener("click", onCaptureClick);
+    } else {
+      console.warn(
+        "[App] Kein 'Foto aufnehmen'-Button gefunden (cam_capture / btnCapture)."
+      );
     }
   }
 
@@ -189,19 +214,19 @@
 
     currentProject = {
       name: "Neues Projekt",
-      frames: [], // hier speichern wir alle aufgenommenen Frames (data URLs)
+      frames: [],
       mode: currentMode,
       createdAt: new Date().toISOString(),
     };
 
     // Projekt an Module weiterreichen
-    if (window.CameraTab && CameraTab.onProjectLoaded) {
+    if (window.CameraTab && typeof CameraTab.onProjectLoaded === "function") {
       CameraTab.onProjectLoaded(currentProject);
     }
-    if (window.EditorTab && EditorTab.onProjectLoaded) {
+    if (window.EditorTab && typeof EditorTab.onProjectLoaded === "function") {
       EditorTab.onProjectLoaded(currentProject);
     }
-    if (window.PlayerTab && PlayerTab.onProjectLoaded) {
+    if (window.PlayerTab && typeof PlayerTab.onProjectLoaded === "function") {
       PlayerTab.onProjectLoaded(currentProject);
     }
 
@@ -227,20 +252,23 @@
       el.style.display = tabName === name ? "block" : "none";
     });
 
-    // Module über Sichtbarkeit informieren (falls sie das nutzen)
+    // Module über Sichtbarkeit informieren
     if (window.CameraTab) {
-      if (name === "camera" && CameraTab.show) CameraTab.show();
-      else if (CameraTab.hide) CameraTab.hide();
+      if (name === "camera" && typeof CameraTab.show === "function")
+        CameraTab.show();
+      else if (typeof CameraTab.hide === "function") CameraTab.hide();
     }
 
     if (window.EditorTab) {
-      if (name === "editor" && EditorTab.show) EditorTab.show();
-      else if (EditorTab.hide) EditorTab.hide();
+      if (name === "editor" && typeof EditorTab.show === "function")
+        EditorTab.show();
+      else if (typeof EditorTab.hide === "function") EditorTab.hide();
     }
 
     if (window.PlayerTab) {
-      if (name === "player" && PlayerTab.show) PlayerTab.show();
-      else if (PlayerTab.hide) PlayerTab.hide();
+      if (name === "player" && typeof PlayerTab.show === "function")
+        PlayerTab.show();
+      else if (typeof PlayerTab.hide === "function") PlayerTab.hide();
     }
 
     console.log("[App] Tab gewechselt zu:", name);
@@ -251,13 +279,11 @@
    * ---------------------------------------------------------------------- */
 
   function backToHome() {
-    // Kamera stoppen
     stopCamera();
 
     if (screenProject) screenProject.style.display = "none";
     if (screenHome) screenHome.style.display = "block";
 
-    // Tabs verstecken
     Object.values(TABS).forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
@@ -267,12 +293,14 @@
   }
 
   /* -------------------------------------------------------------------------
-   * Kamera-Logik (getUserMedia)
+   * Kamera-Logik (getUserMedia + iOS-Fix)
    * ---------------------------------------------------------------------- */
 
   async function startCamera() {
     if (!camVideo) {
-      console.warn("[App] Kein camVideo-Element gefunden.");
+      console.warn(
+        "[App] Kein Video-Element für Kamera gefunden (cam_video / cameraVideo)."
+      );
       return;
     }
     if (cameraStream) {
@@ -287,6 +315,17 @@
       });
       cameraStream = stream;
       camVideo.srcObject = stream;
+
+      // iOS-Safari / Autoplay: explizit play() aufrufen
+      try {
+        await camVideo.play();
+      } catch (playErr) {
+        console.warn(
+          "[App] video.play() konnte nicht automatisch gestartet werden:",
+          playErr
+        );
+      }
+
       console.log("[App] Kamera gestartet ✓");
     } catch (err) {
       console.error("[App] Kamera-Fehler:", err);
@@ -312,34 +351,35 @@
       return;
     }
     if (!camVideo || !camVideo.videoWidth || !camVideo.videoHeight) {
-      alert("Kamera noch nicht bereit.");
+      alert("Kamera noch nicht bereit. Bitte einen Moment warten.");
       return;
     }
 
-    // Canvas in Video-Auflösung anlegen
     const canvas = document.createElement("canvas");
     canvas.width = camVideo.videoWidth;
     canvas.height = camVideo.videoHeight;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(camVideo, 0, 0, canvas.width, canvas.height);
 
-    // Bild als JPEG-DataURL speichern
     const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
-
     currentProject.frames.push(dataUrl);
-    console.log("[App] Frame aufgenommen. Gesamt:", currentProject.frames.length);
 
-    // Player und Editor über neues Projekt (mit mehr Frames) informieren
-    if (window.EditorTab && EditorTab.onProjectLoaded) {
+    console.log(
+      "[App] Frame aufgenommen. Anzahl Frames:",
+      currentProject.frames.length
+    );
+
+    // Editor und Player über neuen Stand informieren
+    if (window.EditorTab && typeof EditorTab.onProjectLoaded === "function") {
       EditorTab.onProjectLoaded(currentProject);
     }
-    if (window.PlayerTab && PlayerTab.onProjectLoaded) {
+    if (window.PlayerTab && typeof PlayerTab.onProjectLoaded === "function") {
       PlayerTab.onProjectLoaded(currentProject);
     }
   }
 
   /* -------------------------------------------------------------------------
-   * Debug-/Global-API, falls du manuell testen willst
+   * Debug-/Global-API
    * ---------------------------------------------------------------------- */
 
   window.App = {
