@@ -1,99 +1,138 @@
 /* ============================================================================
- * Datei   : app.js
- * Zweck   : Zentrales App-Management (Tabs, Projekte laden, Init)
- * Version : v1.0
+ * Datei : app.js
+ * Zweck : Zentrale App-Logik – Startscreen + Tabs + Projekte
+ * Version: v1.1 final
  * ============================================================================
  */
 
 (function () {
-    'use strict';
+    "use strict";
 
-    // ---------------------------
-    // Welche Tabs wir haben
-    // ---------------------------
+    // Screens
+    const screenHome = document.getElementById("screen-home");
+    const screenProject = document.getElementById("screen-project");
 
+    // Tabs
     const TABS = {
-        camera: 'tab-camera',
-        editor: 'tab-editor',
-        player: 'tab-player'
+        camera: "tab-camera",
+        editor: "tab-editor",
+        player: "tab-player"
     };
 
+    let currentProject = null;
     let currentTab = null;
 
-    // ---------------------------------------------------------------
-    // Initialisierung nach DOM-Load
-    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // INITIALISIERUNG
+    // ---------------------------------------------------------------------
 
-    document.addEventListener('DOMContentLoaded', () => {
-
-        console.log('[App] Initialisiere Module …');
+    document.addEventListener("DOMContentLoaded", () => {
 
         // Module initialisieren
-        if (window.CameraTab) CameraTab.init();
-        if (window.EditorTab) EditorTab.init();
-        if (window.PlayerTab) PlayerTab.init();
+        CameraTab.init();
+        EditorTab.init();
+        PlayerTab.init();
 
-        console.log('[App] Module bereit ✓');
+        console.log("[App] Module initialisiert ✓");
 
-        // Standard-Starttab
-        showTab('camera');
+        // HOME-BUTTONS
+        document.getElementById("home_light").addEventListener("click", () => {
+            console.log("[App] Light-Version ausgewählt");
+        });
 
-        console.log('[App] Start-Tab: Kamera');
+        document.getElementById("home_pro").addEventListener("click", () => {
+            console.log("[App] Pro-Version ausgewählt");
+        });
 
-        // Beispiel: Ein Fake-Projekt laden
-        // (später ersetzt durch echte Projektlogik)
-        const dummyProject = {
-            name: "Demo Projekt",
+        document.getElementById("home_newProject")
+            .addEventListener("click", startNewProject);
+
+        document.getElementById("home_library")
+            .addEventListener("click", () => alert("Bibliothek kommt später 🙌"));
+
+        document.getElementById("home_settings")
+            .addEventListener("click", () => alert("Einstellungen kommen später ⚙️"));
+
+        // TAB-BUTTONS
+        document.getElementById("btn_tab_camera").addEventListener("click", () => showTab("camera"));
+        document.getElementById("btn_tab_editor").addEventListener("click", () => showTab("editor"));
+        document.getElementById("btn_tab_player").addEventListener("click", () => showTab("player"));
+        document.getElementById("btn_back_home").addEventListener("click", backToHome);
+
+        console.log("[App] Startscreen aktiv");
+    });
+
+    // ---------------------------------------------------------------------
+    // NEUES PROJEKT
+    // ---------------------------------------------------------------------
+
+    function startNewProject() {
+        console.log("[App] Neues Projekt gestartet");
+
+        currentProject = {
+            name: "Neues Projekt",
             frames: []
         };
 
-        onProjectLoaded(dummyProject);
-    });
+        // An alle Module weiterreichen
+        CameraTab.onProjectLoaded(currentProject);
+        EditorTab.onProjectLoaded(currentProject);
+        PlayerTab.onProjectLoaded(currentProject);
 
+        // Switchen auf Projekt-Screen
+        screenHome.style.display = "none";
+        screenProject.style.display = "block";
 
-    // ---------------------------------------------------------------
-    // Tab-Wechsel
-    // ---------------------------------------------------------------
+        // Start-Tab: Kamera
+        showTab("camera");
+    }
 
-    function showTab(tabName) {
-        currentTab = tabName;
+    // ---------------------------------------------------------------------
+    // TAB-WECHSEL
+    // ---------------------------------------------------------------------
 
-        Object.keys(TABS).forEach(name => {
-            const el = document.getElementById(TABS[name]);
-            if (el) el.style.display = (name === tabName ? 'block' : 'none');
+    function showTab(name) {
+        currentTab = name;
+
+        Object.keys(TABS).forEach(tabName => {
+            const el = document.getElementById(TABS[tabName]);
+            el.style.display = (tabName === name ? "block" : "none");
         });
 
-        console.log('[App] Tab geöffnet:', tabName);
+        // Module informieren
+        if (name === "camera") CameraTab.show();
+        else CameraTab.hide();
 
-        // Modul-Hooks
-        if (tabName === 'camera' && window.CameraTab) CameraTab.show();
-        if (tabName === 'editor' && window.EditorTab) EditorTab.show();
-        if (tabName === 'player' && window.PlayerTab) PlayerTab.show();
+        if (name === "editor") EditorTab.show();
+        else EditorTab.hide();
 
-        if (tabName !== 'camera' && window.CameraTab) CameraTab.hide();
-        if (tabName !== 'editor' && window.EditorTab) EditorTab.hide();
-        if (tabName !== 'player' && window.PlayerTab) PlayerTab.hide();
+        if (name === "player") PlayerTab.show();
+        else PlayerTab.hide();
+
+        console.log("[App] Tab gewechselt zu:", name);
     }
 
-    // ---------------------------------------------------------------
-    // Projekt laden → an alle Module übergeben
-    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // ZURÜCK ZUM STARTSCREEN
+    // ---------------------------------------------------------------------
 
-    function onProjectLoaded(project) {
-        console.log('[App] Projekt geladen → weiterreichen an Tabs …');
+    function backToHome() {
+        screenProject.style.display = "none";
+        screenHome.style.display = "block";
 
-        if (window.CameraTab) CameraTab.onProjectLoaded(project);
-        if (window.EditorTab) EditorTab.onProjectLoaded(project);
-        if (window.PlayerTab) PlayerTab.onProjectLoaded(project);
+        console.log("[App] zurück zu Startscreen");
+
+        // Tabs deaktivieren
+        Object.values(TABS).forEach(id => {
+            document.getElementById(id).style.display = "none";
+        });
     }
 
-    // ---------------------------------------------------------------
-    // Globale API (falls du später Switch-Buttons baust)
-    // ---------------------------------------------------------------
-
+    // Global für Debug
     window.App = {
+        startNewProject,
         showTab,
-        onProjectLoaded
+        backToHome
     };
 
 })();
