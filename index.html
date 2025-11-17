@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>ToyMovie Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Module -->
+    <script src="camera.js" defer></script>
+    <script src="editor.js" defer></script>
+    <script src="player.js" defer></script>
+
+    <!-- Main App -->
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         HOME-SCREEN / STARTSCREEN
+         ========================================================= -->
+    <div id="screen-home" class="screen screen--active">
+
+        <h1>ToyMovie Maker</h1>
+
+        <h2>Version auswählen</h2>
+        <div class="home-row">
+            <button id="home_light">🌈 Light</button>
+            <button id="home_pro">🧰 Pro</button>
+        </div>
+
+        <h2>Projekt</h2>
+        <div class="home-row">
+            <button id="home_newProject">🎬 Neues Projekt</button>
+            <button id="home_library">📂 Bibliothek</button>
+            <button id="home_settings">⚙️ Einstellungen</button>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         PROJEKT-SCREEN (TABS)
+         ========================================================= -->
+    <div id="screen-project" class="screen" style="display:none;">
+
+        <!-- TABMENÜ -->
+        <div id="tabbar">
+            <button id="btn_tab_camera">📷 Kamera</button>
+            <button id="btn_tab_editor">✏️ Editor</button>
+            <button id="btn_tab_player">▶️ Player</button>
+            <button id="btn_back_home">⬅️ Zurück</button>
+        </div>
+
+        <!-- TAB: KAMERA -->
+        <div id="tab-camera" class="tab-content" style="display:none;">
+            <h2>Kamera</h2>
+
+            <!-- Kamera im Rahmen, der zum Handy passt -->
+            <div class="camera-frame">
+                <video id="cam_video" autoplay playsinline></video>
+                <canvas id="cam_overlay"></canvas>
+            </div>
+
+            <button id="cam_capture">📸 Foto aufnehmen</button>
+        </div>
+
+        <!-- TAB: EDITOR -->
+        <div id="tab-editor" class="tab-content" style="display:none;">
+            <h2>Editor</h2>
+
+            <div id="editor_timeline"></div>
+        </div>
+
+        <!-- TAB: PLAYER -->
+        <div id="tab-player" class="tab-content" style="display:none;">
+            <h2>Player</h2>
+
+            <div id="player_root">
+                <div id="player_info">Keine Daten</div>
+
+                <img id="player_img" alt="Frame">
+
+                <div class="player-controls">
+                    <button id="player_prev">◀︎</button>
+                    <button id="player_playPause">▶︎</button>
+                    <button id="player_next">▶︎</button>
+                    <button id="player_fullscreen">⛶</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
