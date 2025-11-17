@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>ToyMovie Maker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Module / Settings (optional, wenn vorhanden) -->
+  <script src="settings.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="library.js" defer></script>
+  <script src="camera.js" defer></script>
+  <script src="editor.js" defer></script>
+  <script src="player.js" defer></script>
+
+  <!-- Main App -->
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       SCREEN: STARTSEITE / HOME (Variante 3 – Karten-UI)
+       ======================================================= -->
+  <div id="screen-home" class="screen screen--active">
+
+    <!-- Hero-Bereich -->
+    <section class="hero">
+      <h1 id="heroTitle">ToyMovie Maker</h1>
+      <p id="heroSub" class="hero-sub">Stop-Motion für LEGO, Playmobil & Barbie</p>
+      <p id="heroText" class="hero-text">
+        Wähle eine Version, erstelle ein neues Projekt oder öffne die Bibliothek.
+        Die Kamera nutzt dein Handy – am besten im Hochformat testen.
+      </p>
+      <button id="home_newProject" class="btn-primary btn-full">
+        🎬 Neues Projekt starten
+      </button>
+    </section>
+
+    <!-- Karten-Grid -->
+    <section class="home-grid">
+
+      <!-- Reihe 1: Light / Pro -->
+      <div class="home-row home-row--modes">
+        <button id="home_light" class="home-card home-card--mode">
+          <div class="home-card-icon">🌈</div>
+          <div class="home-card-title">Light Version</div>
+          <div class="home-card-desc">
+            Kinderfreundlich, einfache Bedienung.
+          </div>
+        </button>
+
+        <button id="home_pro" class="home-card home-card--mode">
+          <div class="home-card-icon">🧰</div>
+          <div class="home-card-title">Pro Version</div>
+          <div class="home-card-desc">
+            Alle Tools für fortgeschrittene Nutzer.
+          </div>
+        </button>
+      </div>
+
+      <!-- Reihe 2: Projekt-Aktionen -->
+      <div class="home-row home-row--actions">
+        <button id="home_library" class="home-card">
+          <div class="home-card-icon">📂</div>
+          <div class="home-card-title">Bibliothek</div>
+          <div class="home-card-desc">
+            Projekte ansehen, öffnen & exportieren.
+          </div>
+        </button>
+
+        <button id="home_settings" class="home-card">
+          <div class="home-card-icon">⚙️</div>
+          <div class="home-card-title">Einstellungen</div>
+          <div class="home-card-desc">
+            Theme, Sprache & Modus (später).
+          </div>
+        </button>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- =========================================================
+       SCREEN: PROJEKT (Tabs: Kamera / Editor / Player)
+       ======================================================= -->
+  <div id="screen-project" class="screen" style="display:none;">
+
+    <!-- Tabbar -->
+    <div id="tabbar">
+      <button id="btn_tab_camera">📷 Kamera</button>
+      <button id="btn_tab_editor">✏️ Editor</button>
+      <button id="btn_tab_player">▶️ Player</button>
+      <button id="btn_back_home">⬅️ Zurück</button>
+    </div>
+
+    <!-- TAB: KAMERA -->
+    <div id="tab-camera" class="tab-content" style="display:none;">
+      <h2>Kamera</h2>
+
+      <!-- Kamera-Rahmen, der ins Layout passt -->
+      <div class="camera-frame">
+        <video id="cam_video" autoplay playsinline></video>
+        <canvas id="cam_overlay"></canvas>
+      </div>
+
+      <button id="cam_capture" class="btn-primary">
+        📸 Foto aufnehmen
+      </button>
+    </div>
+
+    <!-- TAB: EDITOR -->
+    <div id="tab-editor" class="tab-content" style="display:none;">
+      <h2>Editor</h2>
+
+      <!-- Hier kommt die Timeline rein (editor.js) -->
+      <div id="editor_timeline"></div>
+    </div>
+
+    <!-- TAB: PLAYER -->
+    <div id="tab-player" class="tab-content" style="display:none;">
+      <h2>Player</h2>
+
+      <div id="player_root">
+        <div id="player_info">Keine Daten</div>
+
+        <div class="player-view">
+          <img id="player_img" alt="Frame">
+        </div>
+
+        <div class="player-controls">
+          <button id="player_prev">◀︎</button>
+          <button id="player_playPause">▶︎</button>
+          <button id="player_next">▶︎</button>
+          <button id="player_fullscreen">⛶</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =========================================================
+       SCREEN: BIBLIOTHEK (Library – passend zu library.js)
+       ======================================================= -->
+  <div id="screen-library" class="screen" style="display:none;">
+
+    <div class="library-header">
+      <h1>Bibliothek</h1>
+      <button id="lib_close">⬅️ Zurück</button>
+    </div>
+
+    <div class="library-actions">
+      <button id="lib_export_json" class="lib-btn lib-btn--primary">
+        ⬇︎ Alle Daten exportieren (JSON)
+      </button>
+      <button id="lib_import_json" class="lib-btn">
+        ⬆︎ Daten importieren (JSON)
+      </button>
+      <input
+        id="lib_import_file"
+        type="file"
+        accept="application/json"
+        style="display:none;">
+    </div>
+
+    <div id="lib_projectList" class="library-project-list"></div>
+    <div id="lib_emptyHint" class="library-empty-hint">
+      Noch keine Projekte vorhanden.
+    </div>
+
+  </div>
+
+  <!-- =========================================================
+       SCREEN: EINSTELLUNGEN (für settings.js)
+       ======================================================= -->
+  <div id="screen-settings" class="screen" style="display:none;">
+
+    <div class="settings-header">
+      <button id="settings_back" class="btn-secondary">⬅️ Zurück</button>
+      <h1>Einstellungen</h1>
+    </div>
+
+    <!-- settings.js füllt diesen Container -->
+    <div id="settings_root" class="settings-section">
+      <p class="settings-placeholder">
+        Einstellungen werden geladen …
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
