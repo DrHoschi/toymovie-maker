@@ -1,0 +1,443 @@
+/* ============================================================
+ * ToyMovie Maker – Styles
+ * Version: v0.4.0 (Light/Pro Auswahl)
+ * ========================================================== */
+
+/* ---------- Reset / Basis ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: #f3f5ff;
+  color: #333;
+}
+
+/* ---------- Theme-Farben über CSS-Variablen ---------- */
+
+body {
+  --accent: #ff3aa8;
+  --accent-soft: #ffe3f4;
+  --accent-strong: #ff1493;
+  --bg-gradient: linear-gradient(180deg, #f3f5ff 0%, #ffe9f8 100%);
+  --btn-text: #ffffff;
+}
+
+/* Pink-Theme (Standard) */
+body.theme-pink {
+  --accent: #ff3aa8;
+  --accent-soft: #ffe3f4;
+  --accent-strong: #ff1493;
+  --bg-gradient: linear-gradient(180deg, #f3f5ff 0%, #ffe9f8 100%);
+}
+
+/* Blau-Theme */
+body.theme-blue {
+  --accent: #4b8dff;
+  --accent-soft: #e1ecff;
+  --accent-strong: #1f6dff;
+  --bg-gradient: linear-gradient(180deg, #f3f5ff 0%, #e3f1ff 100%);
+}
+
+/* ---------- Mode (Light / Pro) ---------- */
+
+body.mode-light {
+  /* Kinder-Version: kann später noch mehr vereinfachen */
+}
+
+body.mode-pro {
+  /* Pro-Version: Default, alle Tools sichtbar */
+}
+
+/* In LIGHT-Modus ein paar Pro-Regler ausblenden */
+body.mode-light .slider-row--overlayCount,
+body.mode-light .player-slider-row--position,
+body.mode-light .player-slider-row--fps {
+  display: none;
+}
+
+/* ---------- Layout-Grundstruktur ---------- */
+
+body {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Screens */
+.screen {
+  display: none;
+  padding: 16px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.screen--active {
+  display: block;
+}
+
+/* ---------- Startseite: Light/Pro-Grid ---------- */
+
+.home-grid {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-row {
+  display: flex;
+  gap: 10px;
+}
+
+.home-row--modes .home-card,
+.home-row--actions .home-card {
+  flex: 1;
+}
+
+.home-row--settings .home-card {
+  flex: 1;
+}
+
+.home-card {
+  border-radius: 20px;
+  background: rgba(255,255,255,0.92);
+  padding: 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  border: none;
+  text-align: left;
+}
+
+.home-card-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.home-card-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.home-card-desc {
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.home-card--mode {
+  position: relative;
+}
+
+.home-card--active {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+  outline: 2px solid var(--accent-strong);
+}
+
+/* ---------- Hero / Info-Box ---------- */
+
+.hero {
+  margin-top: 18px;
+  padding: 20px 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  color: var(--accent-strong);
+}
+
+.hero-sub {
+  margin: 0 0 16px;
+  font-size: 15px;
+  color: #666;
+}
+
+.hero-text {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--btn-text);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-secondary {
+  border-radius: 999px;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--accent-soft);
+  color: #444;
+}
+
+.btn-icon {
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  padding: 6px 12px;
+  font-size: 16px;
+}
+
+/* ---------- Projektliste ---------- */
+
+.projects {
+  margin-top: 24px;
+  padding: 0 4px 40px;
+}
+
+.projects h2 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.projects-hint {
+  font-size: 13px;
+  color: #666;
+}
+
+.project-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.9);
+}
+
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-info {
+  font-size: 12px;
+  color: #777;
+}
+
+.project-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ---------- Player / Editor ---------- */
+
+.player {
+  margin-top: 16px;
+}
+
+.player h3 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.player-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-preview {
+  border-radius: 16px;
+  background: #111;
+  padding: 4px;
+}
+
+.player-preview-inner {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #222;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none;
+}
+
+.player-hint {
+  color: #bbb;
+  font-size: 12px;
+  padding: 8px;
+  text-align: center;
+}
+
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.player-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.player-slider-row {
+  font-size: 12px;
+}
+
+.player-slider-row label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.player-slider-row input[type="range"] {
+  width: 100%;
+}
+
+/* ---------- Settings-Screen ---------- */
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.settings-header h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.settings-section {
+  margin-top: 18px;
+  padding: 14px 12px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.settings-section h2 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.settings-row {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-row label {
+  font-size: 13px;
+}
+
+.settings-row select {
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  font-size: 13px;
+}
+
+.settings-value {
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  font-size: 13px;
+}
+
+.settings-row .btn-full {
+  width: 100%;
+}
+
+/* Footer */
+
+.footer {
+  margin-top: auto;
+  padding: 8px 12px 14px;
+  font-size: 11px;
+  text-align: center;
+  color: #777;
+  opacity: 0.9;
+}
+
+/* =========================================================
+ * NEU: Kamera-Layout für den Projekt-Screen
+ * ======================================================= */
+
+#tab-camera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Rahmen für Video + Overlay – passt ins Handyfenster */
+.camera-frame {
+  position: relative;
+  width: 100%;
+  max-width: 640px;          /* auf größeren Screens begrenzen */
+  aspect-ratio: 3 / 4;       /* Hochformat */
+  overflow: hidden;
+  border-radius: 24px;
+  background: #000;
+}
+
+/* Video + Canvas liegen exakt übereinander */
+.camera-frame video,
+.camera-frame canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;       /* komplettes Bild sichtbar – kein Zuschnitt */
+}
+
+/* Foto-Button leicht absetzen */
+#cam_capture {
+  margin-top: 4px;
+}
