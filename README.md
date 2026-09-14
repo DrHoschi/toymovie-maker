@@ -4,9 +4,11 @@ This branch contains the newly structured StopMotion V1 product specification. T
 
 ## Start here
 
+- [`docs/spec/PROJECT_DOCUMENTATION.md`](docs/spec/PROJECT_DOCUMENTATION.md) – consolidated project documentation
 - [`docs/spec/MASTER_INDEX.md`](docs/spec/MASTER_INDEX.md) – master index and authority order
 - [`docs/spec/STATUS.md`](docs/spec/STATUS.md) – current gates and next allowed step
 - [`docs/spec/OPEN_DETAILS_AND_HANDOFFS.md`](docs/spec/OPEN_DETAILS_AND_HANDOFFS.md) – unresolved/deferred details and SM-06/07 handoffs
+- [`docs/spec/SOURCE_BASELINE_REFERENCE.md`](docs/spec/SOURCE_BASELINE_REFERENCE.md) – preserved reference from the original project documentation
 
 ## Current specification status
 
