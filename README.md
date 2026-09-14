@@ -2,6 +2,12 @@
 
 This branch contains the newly structured StopMotion V1 product specification. The legacy prototype currently present on `main` is **not** treated as the authoritative product baseline for the new project plan.
 
+## Start here
+
+- [`docs/spec/MASTER_INDEX.md`](docs/spec/MASTER_INDEX.md) – master index and authority order
+- [`docs/spec/STATUS.md`](docs/spec/STATUS.md) – current gates and next allowed step
+- [`docs/spec/OPEN_DETAILS_AND_HANDOFFS.md`](docs/spec/OPEN_DETAILS_AND_HANDOFFS.md) – unresolved/deferred details and SM-06/07 handoffs
+
 ## Current specification status
 
 - `SM-00 – Project Master & Scope`: V0.1 DRAFT / internally consistent
@@ -19,8 +25,6 @@ This branch contains the newly structured StopMotion V1 product specification. T
 - [`docs/spec/SM-03_UI_UX_and_Navigation.md`](docs/spec/SM-03_UI_UX_and_Navigation.md)
 - [`docs/spec/SM-04_Camera_and_Capture_Engine.md`](docs/spec/SM-04_Camera_and_Capture_Engine.md)
 - [`docs/spec/SM-05_Timeline_Playback_and_Frame_Editing.md`](docs/spec/SM-05_Timeline_Playback_and_Frame_Editing.md)
-- [`docs/spec/OPEN_DETAILS_AND_HANDOFFS.md`](docs/spec/OPEN_DETAILS_AND_HANDOFFS.md)
-- [`docs/spec/STATUS.md`](docs/spec/STATUS.md)
 
 ## Planned document sequence
 
