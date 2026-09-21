@@ -34,16 +34,16 @@ Implementation must conform upward; it must not silently redefine product behavi
 ## V1 total-audit line
 
 - `SM-AUD-00` – V1 Total Audit Scope / Evidence Reconciliation: COMPLETE
-- `SM-AUD-01` – 106-Requirement Master Coverage Matrix: STARTED / previously evidence-blocked
+- `SM-AUD-01` – 106-Requirement Master Coverage Matrix: COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED
 - `SM-AUD-01A` – Authoritative 106-Row Baseline Recovery: PASS
 
 The repository itself now provides the authoritative SM-02A 106-row inventory in `SM-02_Functional_Specification.md`. The prior evidence blocker `SM-AUD-01-EG-001` is resolved.
 
 ## Critical audit guard
 
-No local block PASS or FROZEN status may be promoted automatically to V1 total PASS. SM-AUD-01 must evaluate all 106 rows individually against SM-00…SM-07.
+No local block PASS or FROZEN status was promoted automatically to V1 total PASS. SM-AUD-01 individually accounted for all 106 authoritative SM-02A rows. Its original `ARC-001…ARC-010` contradiction was resolved only through the separately authorized `SM-AUD-01R` / `SM-CHG-0001` correction, verification, provenance recovery and SM-07 re-freeze chain.
 
-The recovered baseline contains `ARC-001…ARC-010 – Portable Project Archive` as V1 REQUIRED. SM-07's later local deferral of Project File / Project Data Import therefore requires explicit audit treatment and may not be silently classified non-V1.
+Current result: `SM-AUD-01-FND-001 = RESOLVED / CLOSED`; `SM-AUD-01 = COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
 
 ## Future documents after the V1 specification audit
 
@@ -55,6 +55,8 @@ Only after the V1 total audit reaches its authorized completion gate with no unr
 
 ## Current authoritative endpoint
 
-`SM-AUD-01A = PASS / AUTHORITATIVE 106-ROW BASELINE RECOVERED / SM-AUD-01-EG-001 RESOLVED`.
+`SM-AUD-01 = COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
 
-Next permissible audit action: resume `SM-AUD-01 – 106-Requirement Master Coverage Matrix` against the exact rows in `SM-02_Functional_Specification.md`. No SM-AUD-02 work is implied by this status.
+`SM-AUD-01-FND-001 = RESOLVED / CLOSED` after the authorized SM-CHG-0001 correction and corrected SM-07 re-freeze.
+
+Next permissible audit action: reconcile the already existing `SM-AUD-02` history/status against this endpoint before defining or starting any new SM-AUD-02 work.
