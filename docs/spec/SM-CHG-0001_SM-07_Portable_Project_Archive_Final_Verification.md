@@ -2,7 +2,7 @@
 
 ## Status
 
-`VERIFICATION COMPLETE / BLOCKED / NOT PASS / NO RE-FREEZE`
+`VERIFICATION COMPLETE / PASS / BLOCKER CLOSED / NO RE-FREEZE`
 
 This gate verifies only the corrected SM-07 contract produced under `SM-CHG-0001`. It does not modify SM-07, does not re-freeze SM-07, and does not close `SM-AUD-01-FND-001`.
 
@@ -15,9 +15,9 @@ Verified against:
 - frozen SM-03 transfer/navigation authority;
 - SM-05 Sequence/editor/import handoff contracts available in the repository evidence;
 - frozen SM-06 persistence/recovery authority;
-- known project-import/archive OD identities `SM-07B-OD-001`, `SM-07B-OD-002`, `SM-07B-OD-004`.
+- recovered original SM-07B semantics and provenance for `SM-07B-OD-001`, `SM-07B-OD-002`, `SM-07B-OD-004`, as backfilled by `SM-07-PROV-01` / `SM-07-PROV-02`.
 
-No missing OD text is reconstructed or guessed.
+No OD semantics are reconstructed from IDs or guessed. The re-verification uses the recovered primary-source semantics.
 
 ## 2. ARC-001…ARC-010 verification
 
@@ -110,25 +110,63 @@ Result: `PASS / AUTHORITY PRESERVED`.
 
 ## 8. Project-import/archive OD verification
 
-Known identities:
+Recovered original semantics:
 
-- `SM-07B-OD-001`
-- `SM-07B-OD-002`
-- `SM-07B-OD-004`
+- `SM-07B-OD-001 – Imported Project Identity Collision Policy`
+- `SM-07B-OD-002 – Supported Project Import Format / Version Contract`
+- `SM-07B-OD-004 – Imported Project Partial/Damaged Content Acceptance`
 
-The corrected SM-07 explicitly preserves these identities without guessing, closing, renaming or reclassifying them because their exact original semantic text has not been recovered in the transferred evidence.
+`SM-07-PROV-01` recovered all three directly from the original SM-07B primary-source chat evidence; `SM-07-PROV-02` backfilled that provenance into the repository. All three are provenance `Class A`.
 
-This is compliant with the correction authorization, but it prevents a true final verification PASS: without the original OD semantics, this gate cannot prove that none of the three contains a still-unresolved V1 behavior/detail required by the corrected archive contract, nor can it validly reconcile their former `deferred/non-V1` classification against the now-restored V1 archive authority.
+### SM-07B-OD-001 compatibility
 
-### Verification blocker
+Original semantic subject: handling imported Project-/Frame-/Annotation-ID collisions. The later original SM-07 reconciliation distinguished external identity from the new local registered project identity and required deterministic/referentially consistent remapping where necessary.
+
+The corrected archive contract requires default successful archive import to create a **new local project instance**, prohibits silent overwrite/merge, and reconstructs the archive's required identity-bearing project/frame relationships.
+
+Result: `PASS / COMPATIBLE`.
+
+No contradiction with the recovered OD-001 semantics is identified.
+
+### SM-07B-OD-002 compatibility
+
+Original semantic subject: which project versions / external project representations are accepted. The original wording `ZIP oder eigenes App-Format` was conceptual only and did not establish a binding ZIP/JSON/schema choice.
+
+The corrected archive contract requires sufficient schema/version information to determine whether a candidate is supported and interpretable, while explicitly leaving concrete archive extension, container/compression format and schema encoding as implementation details.
+
+Result: `PASS / COMPATIBLE`.
+
+The correction supplies the functional version/validation boundary required by `ARC-005` without contradicting an earlier concrete format commitment, because no such commitment existed.
+
+### SM-07B-OD-004 compatibility
+
+Original semantic subject: acceptance boundary between a structurally damaged/ambiguous project representation and an otherwise valid project containing known Missing/Damaged states. The original semantics did not authorize automatic partial-success, best-effort import, or a new generic Partial-Project-Import capability.
+
+The corrected archive contract requires validation before destructive import effects. An invalid, corrupt, unsupported or insufficient archive is not Archive Import Success, cannot overwrite an existing project, and cannot invent replacement project data. Required frame types/states remain part of reconstructable project state under the existing semantic owners.
+
+Result: `PASS / COMPATIBLE`.
+
+No automatic partial-success or best-effort archive-import behavior is introduced.
+
+### Verification blocker re-verification
+
+Previous blocker:
 
 `SM-CHG-0001-VFY-BLK-001 – Original semantic evidence for SM-07B-OD-001 / 002 / 004 unavailable`
 
-Classification:
+The factual evidence condition is no longer true. Original semantics are recovered and repository-backed, and comparison against the corrected archive contract yields:
 
-`EVIDENCE BLOCKER / NO CONTRACT DEFECT PROVEN / FINAL VERIFICATION CANNOT PASS`
+- OD-001: `PASS / COMPATIBLE`
+- OD-002: `PASS / COMPATIBLE`
+- OD-004: `PASS / COMPATIBLE`
 
-Required resolution is evidence recovery/reconciliation only. The missing OD meanings must not be reconstructed from their IDs or from the corrected archive contract.
+No new contradiction, missing V1 rule, or replacement verification blocker is identified from these three recovered ODs.
+
+Therefore:
+
+`SM-CHG-0001-VFY-BLK-001 = CLOSED / ORIGINAL EVIDENCE RECOVERED / 3 OF 3 OD COMPATIBILITY PASS`
+
+This closure is a verification result only. It does not re-freeze SM-07 and does not close `SM-AUD-01-FND-001`.
 
 ## 9. Scope-regression check
 
@@ -156,25 +194,31 @@ Result: `PASS / NO SCOPE EXPANSION DETECTED`.
 - SM-05 authority: `PASS`
 - SM-06 authority: `PASS`
 - Unauthorized scope expansion: `0 detected`
-- Archive OD evidence: `3 identities known / 0 original semantic texts recovered / BLOCKED`
-- Verification blockers: `1`
+- Archive OD provenance: `3/3 original semantics recovered / Class A`
+- Archive OD compatibility: `3/3 PASS`
+- Verification blockers: `0 OPEN`
 
 ## 11. Gate result
 
-`SM-CHG-0001 / SM-07 PORTABLE PROJECT ARCHIVE CORRECTION – FINAL VERIFICATION = BLOCKED / NOT PASS`
+`SM-CHG-0001 / SM-07 PORTABLE PROJECT ARCHIVE CORRECTION – FINAL VERIFICATION = PASS`
 
-The corrected contract itself passes the tested ARC, IMG/EXP-regression and cross-boundary checks, but final verification cannot pass while the three archive/project-import OD meanings remain unavailable.
+The corrected contract passes the ARC, IMG/EXP-regression, cross-boundary, scope-regression and recovered archive/project-import OD compatibility checks.
+
+The former evidence blocker is closed by recovered primary-source evidence plus 3/3 compatibility PASS.
 
 Therefore:
 
-- `SM-07 = CORRECTED / VERIFICATION BLOCKED / NOT RE-FROZEN`
+- `SM-07 = CORRECTED / FINAL-VERIFIED / NOT RE-FROZEN`
+- `SM-CHG-0001 FINAL VERIFICATION = PASS`
+- `SM-CHG-0001-VFY-BLK-001 = CLOSED`
 - `SM-AUD-01-FND-001 = OPEN / NOT CLOSED`
-- `SM-CHG-0001-VFY-BLK-001 = OPEN`
-- `RE-FREEZE = NOT AUTHORIZED / NOT PERFORMED`
+- `RE-FREEZE = NOT PERFORMED`
 - `SM-AUD-02 = NOT AUTHORIZED`
+
+This completion does not itself modify the corrected SM-07 contract.
 
 ## 12. Next-step boundary
 
-The next permissible step is exclusively a separately authorized `SM-CHG-0001 Verification Blocker Evidence Recovery / OD Reconciliation` for `SM-07B-OD-001`, `SM-07B-OD-002` and `SM-07B-OD-004`.
+The next permissible step is exclusively a separately authorized `SM-07 Re-Freeze` of the corrected, final-verified SM-07 contract.
 
-That step may search/recover the original evidence and classify its effect on the corrected archive contract. It must not guess missing OD semantics, modify SM-07, close `SM-AUD-01-FND-001`, re-freeze SM-07, or proceed to SM-AUD-02 in the same step.
+That step must not silently close `SM-AUD-01-FND-001` and must not begin `SM-AUD-02` in the same step.
