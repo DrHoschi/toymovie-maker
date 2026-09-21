@@ -2,7 +2,7 @@
 
 ## Status
 
-`COMPLETE / 96 COVERED / 10 CONTRADICTED / 0 EVIDENCE GAP / NOT PASS`
+`COMPLETE / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP / PASS`
 
 Audit basis: authoritative SM-02A inventory in `SM-02_Functional_Specification.md`, checked individually against SM-00…SM-07. No requirement text was reconstructed and no coverage was inferred merely from earlier block gate totals.
 
@@ -20,9 +20,9 @@ Audit basis: authoritative SM-02A inventory in `SM-02_Functional_Specification.m
 | RCV | 14 | 14 | 0 | 0 |
 | IMG | 2 | 2 | 0 | 0 |
 | EXP | 5 | 5 | 0 | 0 |
-| ARC | 10 | 0 | 10 | 0 |
+| ARC | 10 | 10 | 0 | 0 |
 | SET | 6 | 6 | 0 | 0 |
-| **TOTAL** | **106** | **96** | **10** | **0** |
+| **TOTAL** | **106** | **106** | **0** | **0** |
 
 ## Row-by-row matrix
 
@@ -172,20 +172,24 @@ Coverage meanings:
 
 ### ARC – Portable Project Archive
 
-These rows expose a direct V1 contradiction. SM-00 D00-007 and SM-02A require the portable editable archive. Frozen SM-07 explicitly states that Project File / Project Data Import was deferred and that ZIP image packaging is not project serialization/project exchange. Therefore the requirements are not missing and not merely unassessed: the current contract stack contradicts them.
+The original SM-AUD-01 run identified ARC-001…ARC-010 as `CONTRADICTED` because the then-frozen SM-07 deferred Project File / Project Data Import. That historical finding triggered `SM-AUD-01-FND-001`, the authorized reconciliation/change-control chain, `SM-CHG-0001`, final verification, provenance recovery for the affected SM-07B ODs, and the corrected SM-07 re-freeze.
 
-| Requirement | Authoritative text | Owner/evidence | Result |
+The post-correction closure gate checks the same ten authoritative SM-02A rows against the corrected, final-verified and re-frozen SM-07. `SM-CHG-0001` independently verified ARC-001…ARC-010 as `10/10 PASS`.
+
+| Requirement | Authoritative text | Post-correction owner/evidence | Result |
 |---|---|---|---|
-| ARC-001 | Export editable project archive | SM-00 requires; SM-07 has no archive export and excludes ZIP as project serialization | CONTRADICTED |
-| ARC-002 | Import editable project archive | SM-00 requires; SM-07 explicitly defers Project File / Project Data Import | CONTRADICTED |
-| ARC-003 | Imported archive restores an editable project | Required by SM-00/02; unavailable under deferred archive import | CONTRADICTED |
-| ARC-004 | Archive contains all required project components | Required by SM-00; no SM-07 archive artifact exists | CONTRADICTED |
-| ARC-005 | Schema/version information | Required by SM-00; no SM-07 archive contract exists | CONTRADICTED |
-| ARC-006 | No dependency on absolute device paths | Required by SM-00; no SM-07 archive contract exists | CONTRADICTED |
-| ARC-007 | Validate archive before destructive import effects | Required by SM-00; archive import deferred by SM-07 | CONTRADICTED |
-| ARC-008 | Invalid archive must not overwrite an existing project | Required by SM-00; archive import deferred by SM-07 | CONTRADICTED |
-| ARC-009 | Default import creates a new local project instance | Required by SM-00; archive import deferred by SM-07 | CONTRADICTED |
-| ARC-010 | Offline/no cloud-login dependency | Required by SM-00; no V1 archive transfer contract remains in SM-07 | CONTRADICTED |
+| ARC-001 | Export editable project archive | SM-07 `Archive export – ARC-001`; complete editable archive artifact required | COVERED |
+| ARC-002 | Import editable project archive | SM-07 Portable Project Archive is a required V1 import class; validated import creates a local project instance | COVERED |
+| ARC-003 | Imported archive restores an editable project | SM-07 editable roundtrip + `Editable restoration – ARC-003` | COVERED |
+| ARC-004 | Archive contains all required project components | SM-07 required archive content covers reconstructable project data/state required by existing V1 owners | COVERED |
+| ARC-005 | Schema/version information | SM-07 explicit schema/version information required for validation/interpretation | COVERED |
+| ARC-006 | No dependency on absolute device paths | SM-07 portable-reference invariant prohibits absolute device-specific path dependency | COVERED |
+| ARC-007 | Validate archive before destructive import effects | SM-07 validation explicitly precedes destructive import effect | COVERED |
+| ARC-008 | Invalid archive must not overwrite an existing project | SM-07 invalid/corrupt/unsupported/insufficient archive must not overwrite existing project | COVERED |
+| ARC-009 | Default import creates a new local project instance | SM-07 default successful archive import explicitly creates a new local project instance | COVERED |
+| ARC-010 | Offline/no cloud-login dependency | SM-07 explicit offline/no-cloud-login invariant | COVERED |
+
+Post-correction ARC result: `10/10 COVERED`.
 
 ### SET – Settings
 
@@ -202,30 +206,28 @@ These rows expose a direct V1 contradiction. SM-00 D00-007 and SM-02A require th
 
 `SM-AUD-01-FND-001 – Portable Project Archive V1 Contract Contradiction`
 
-Authoritative upstream requirements:
-- SM-00 D00-007 marks complete portable editable project archive import/export V1 REQUIRED.
-- SM-02A contains ARC-001…ARC-010 as ten atomic V1 REQUIRED requirements.
+Historical finding basis: SM-00 D00-007 and SM-02A required ARC-001…ARC-010 as V1 REQUIRED, while the pre-correction frozen SM-07 deferred Project File / Project Data Import. The original SM-AUD-01 result was therefore `96 COVERED / 10 CONTRADICTED / NOT PASS`.
 
-Conflicting frozen downstream contract:
-- SM-07 defers Project File / Project Data Import.
-- SM-07 defines image ZIP as packaging only and explicitly not project serialization/project exchange.
+Authorized resolution chain: `SM-AUD-01R` reconciled the contradiction; `SM-CHG-0001` corrected SM-07; final verification established `ARC 10/10 PASS`; original semantics for `SM-07B-OD-001 / 002 / 004` were recovered and verified `3/3 PASS / COMPATIBLE`; `SM-CHG-0001-VFY-BLK-001` was closed; corrected SM-07 was formally re-frozen.
 
-Impact:
-- 10/106 authoritative V1 requirements are contradicted by the current SM-00…07 stack.
-- The earlier local SM-07 freeze cannot establish V1 total completeness.
-- No frozen contract is changed by this audit.
+Post-correction closure result:
+
+`SM-AUD-01-FND-001 = RESOLVED / CLOSED`
+
+The historical finding remains traceable; its factual contradiction no longer exists in the current frozen contract stack.
 
 ## Gate
 
-`SM-AUD-01 = COMPLETE / NOT PASS`
+`SM-AUD-01 = COMPLETE / PASS`
 
 - 106/106 authoritative rows individually accounted for.
-- 96 COVERED.
-- 10 CONTRADICTED: ARC-001…ARC-010.
+- 106 COVERED.
+- 0 CONTRADICTED.
 - 0 MISSING.
 - 0 EVIDENCE GAP.
+- `SM-AUD-01-FND-001 = RESOLVED / CLOSED`.
 - 0 new requirements.
 - 0 requirement text reconstruction.
 - 0 silent contract changes.
 
-The audit must not continue as if V1 were complete. The finding requires a separately authorized reconciliation/change-control step before a final V1 completeness PASS can become possible.
+This is the post-correction audit state after the authorized SM-CHG-0001 correction, final verification and SM-07 re-freeze. It does not begin or define SM-AUD-02.
