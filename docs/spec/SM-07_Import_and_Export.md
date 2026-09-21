@@ -2,11 +2,11 @@
 
 ## Status
 
-`CORRECTED UNDER SM-CHG-0001 / VERIFICATION PENDING / NOT RE-FROZEN`
+`CORRECTED UNDER SM-CHG-0001 / FINAL-VERIFIED / RE-FROZEN`
 
 This document contains the SM-07 contract after the authorized `SM-CHG-0001` correction. The correction restores the already-authoritative V1 Portable Project Archive capability from `SM-D00-007` and `ARC-001…ARC-010`. It introduces no new product capability beyond that authority.
 
-Final verification and re-freeze are separate later steps and are not performed by this correction.
+Final verification subsequently passed under `SM-CHG-0001`, including the recovered original semantics of `SM-07B-OD-001`, `SM-07B-OD-002` and `SM-07B-OD-004`. This document is now formally re-frozen at that corrected, final-verified state.
 
 ## Authority
 
@@ -240,7 +240,7 @@ Previously deferred project-import/archive-related OD identities:
 - `SM-07B-OD-002`
 - `SM-07B-OD-004`
 
-Their exact original semantic text has not been recovered in the transferred evidence. Under `SM-CHG-0001` they are therefore **not guessed, closed, renamed or reclassified by this correction**. Their evidence/status reconciliation remains pending and must be completed before final SM-07 verification can pass if they materially affect the corrected archive contract.
+`SM-07-PROV-01` subsequently recovered their original SM-07B semantics from primary-source chat evidence, and `SM-07-PROV-02` backfilled that provenance into the repository. All three are provenance `Class A`. The SM-CHG-0001 blocker re-verification found the corrected archive contract compatible with all three recovered semantic subjects (`3/3 PASS`) and closed `SM-CHG-0001-VFY-BLK-001`. This provenance/verification update does not invent new OD semantics and does not alter the corrected archive contract.
 
 # Intentionally unfrozen implementation details
 
@@ -267,10 +267,46 @@ It does not introduce cloud sync/login, collaboration/community sharing, project
 
 `SM-CHG-0001 CONTRACT CORRECTION = APPLIED`
 
-`FINAL VERIFICATION = NOT YET PERFORMED`
+`FINAL VERIFICATION = PASS`
 
-`RE-FREEZE = NOT AUTHORIZED / NOT PERFORMED`
+`SM-CHG-0001-VFY-BLK-001 = CLOSED`
 
-`SM-AUD-01-FND-001 = NOT YET CLOSED`
+`RE-FREEZE = PERFORMED`
 
-The corrected contract must now be verified separately against `ARC-001…ARC-010`, preserved IMG/EXP behavior, SM-03/05/06 authority boundaries and the unresolved evidence status of the three project-import/archive OD identities before any re-freeze or audit finding closure.
+`SM-07 = CORRECTED / FINAL-VERIFIED / RE-FROZEN`
+
+`SM-AUD-01-FND-001 = OPEN / NOT CLOSED BY THIS RE-FREEZE`
+
+The formal re-freeze introduces no new product decision, capability, contract change, OD re-decision, or change to SM-03/04/05/06. It records the corrected SM-07 contract as frozen after successful SM-CHG-0001 final verification.
+
+# Formal Re-Freeze Record
+
+`SM-07 RE-FREEZE = PASS / COMPLETE`
+
+Preconditions:
+
+- `SM-CHG-0001 CONTRACT CORRECTION = APPLIED`;
+- `ARC-001…ARC-010 = 10/10 PASS`;
+- `IMG preservation = 2/2 PASS`;
+- `EXP preservation = 5/5 PASS` for the correction regression, with the pre-existing EXP-004 broader audit interpretation not redecided;
+- SM-03 / SM-05 / SM-06 authority checks = `PASS`;
+- original semantics for `SM-07B-OD-001 / 002 / 004 = 3/3 RECOVERED / CLASS A`;
+- recovered OD compatibility = `3/3 PASS`;
+- `SM-CHG-0001-VFY-BLK-001 = CLOSED`;
+- open SM-CHG-0001 verification blockers = `0`.
+
+Freeze action:
+
+`SM-07 = CORRECTED / FINAL-VERIFIED / RE-FROZEN`
+
+Explicit non-actions:
+
+- new product decisions: 0
+- new capabilities: 0
+- contract semantic changes in this re-freeze: 0
+- OD re-decisions: 0
+- SM-03/04/05/06 changes: 0
+- `SM-AUD-01-FND-001` closure: 0
+- SM-AUD-02 work: 0
+
+This re-freeze records only the already corrected and final-verified SM-07 state.
