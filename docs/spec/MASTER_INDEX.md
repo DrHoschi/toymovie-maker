@@ -37,6 +37,7 @@ Implementation must conform upward; it must not silently redefine product behavi
 - `SM-AUD-01` – 106-Requirement Master Coverage Matrix: COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED
 - `SM-AUD-01A` – Authoritative 106-Row Baseline Recovery: PASS
 - `SM-AUD-02` – OD Master Register Reconciliation: COMPLETE / PASS / 58/58 ACCOUNTED / 0 STATUS CONFLICT
+- `SM-AUD-03` – Cross-Boundary Contract Audit: COMPLETE / PASS / 18/18 PASS / 0 CONFLICT / 0 EVIDENCE GAP
 
 The repository itself provides the authoritative SM-02A 106-row inventory in `SM-02_Functional_Specification.md`. The prior evidence blocker `SM-AUD-01-EG-001` is resolved.
 
@@ -51,6 +52,14 @@ Current requirement result: `SM-AUD-01-FND-001 = RESOLVED / CLOSED`; `SM-AUD-01 
 
 SM-AUD-02 did not silently resolve open ODs or reinterpret deferred ODs. Its current master result is `58/58 ACCOUNTED / 46 RESOLVED-FROZEN / 9 OPEN-NON-BLOCKING / 3 DEFERRED / 0 STATUS CONFLICT`.
 
+## SM-AUD-03 cross-boundary audit
+
+The frozen SM-AUD-03 audit matrix contains 18 concrete cross-boundary contracts spanning SM-00…SM-07 and the SM-AUD-02 OD/handoff lifecycle. All 18 were audited against their existing authority evidence.
+
+Result: `18/18 PASS / 0 CONFLICT / 0 EVIDENCE GAP`.
+
+The audit introduced 0 corrections, 0 OD re-decisions and 0 new product semantics. The 9 `OPEN / NON-BLOCKING` and 3 `DEFERRED` OD classifications remain unchanged.
+
 ## Future documents after the V1 specification audit
 
 Technical architecture, implementation planning and validation/test specification are not authorized merely by this documentation sync. They require their own later scope/authorization.
@@ -61,8 +70,8 @@ Only after the V1 total audit reaches its authorized completion gate with no unr
 
 ## Current authoritative endpoint
 
-`SM-AUD-02 = COMPLETE / PASS / 58/58 OD IDENTITIES ACCOUNTED / 0 STATUS CONFLICT`.
+`SM-AUD-03 = COMPLETE / PASS / 18/18 CROSS-BOUNDARY CONTRACTS PASS / 0 CONFLICT / 0 EVIDENCE GAP`.
 
-This endpoint preserves 9 `OPEN / NON-BLOCKING` ODs and 3 `DEFERRED` ODs exactly as classified by their applicable authorities; SM-AUD-02 did not re-decide them.
+This endpoint preserves the SM-AUD-02 master classification of 46 `RESOLVED / FROZEN`, 9 `OPEN / NON-BLOCKING`, 3 `DEFERRED` and 0 `STATUS CONFLICT`; SM-AUD-03 did not re-decide them.
 
-No SM-AUD-03 work is performed or authorized by this SM-AUD-02 completion/status backfill.
+No SM-AUD-04 work is performed or authorized by this SM-AUD-03 completion/evidence/status backfill.
