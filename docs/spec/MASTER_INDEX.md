@@ -28,7 +28,7 @@ Implementation must conform upward; it must not silently redefine product behavi
 - `SM-07_Import_and_Export.md`
 - `SM-AUD-00_V1_Total_Audit_Scope_and_Evidence.md`
 - `SM-AUD-01A_Authoritative_106_Row_Baseline_Recovery.md`
-- `OPEN_DETAILS_AND_HANDOFFS.md`
+- `OPEN_DETAILS_AND_HANDOFFS.md` – current SM-AUD-02 OD Master Register & Handoffs
 - `STATUS.md`
 
 ## V1 total-audit line
@@ -36,14 +36,20 @@ Implementation must conform upward; it must not silently redefine product behavi
 - `SM-AUD-00` – V1 Total Audit Scope / Evidence Reconciliation: COMPLETE
 - `SM-AUD-01` – 106-Requirement Master Coverage Matrix: COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED
 - `SM-AUD-01A` – Authoritative 106-Row Baseline Recovery: PASS
+- `SM-AUD-02` – OD Master Register Reconciliation: COMPLETE / PASS / 58/58 ACCOUNTED / 0 STATUS CONFLICT
 
-The repository itself now provides the authoritative SM-02A 106-row inventory in `SM-02_Functional_Specification.md`. The prior evidence blocker `SM-AUD-01-EG-001` is resolved.
+The repository itself provides the authoritative SM-02A 106-row inventory in `SM-02_Functional_Specification.md`. The prior evidence blocker `SM-AUD-01-EG-001` is resolved.
+
+The current OD master register in `OPEN_DETAILS_AND_HANDOFFS.md` accounts for 58 unique OD identities exactly once:
+`46 RESOLVED/FROZEN + 9 OPEN/NON-BLOCKING + 3 DEFERRED + 0 STATUS CONFLICT = 58`.
 
 ## Critical audit guard
 
 No local block PASS or FROZEN status was promoted automatically to V1 total PASS. SM-AUD-01 individually accounted for all 106 authoritative SM-02A rows. Its original `ARC-001…ARC-010` contradiction was resolved only through the separately authorized `SM-AUD-01R` / `SM-CHG-0001` correction, verification, provenance recovery and SM-07 re-freeze chain.
 
-Current result: `SM-AUD-01-FND-001 = RESOLVED / CLOSED`; `SM-AUD-01 = COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
+Current requirement result: `SM-AUD-01-FND-001 = RESOLVED / CLOSED`; `SM-AUD-01 = COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
+
+SM-AUD-02 did not silently resolve open ODs or reinterpret deferred ODs. Its current master result is `58/58 ACCOUNTED / 46 RESOLVED-FROZEN / 9 OPEN-NON-BLOCKING / 3 DEFERRED / 0 STATUS CONFLICT`.
 
 ## Future documents after the V1 specification audit
 
@@ -55,8 +61,8 @@ Only after the V1 total audit reaches its authorized completion gate with no unr
 
 ## Current authoritative endpoint
 
-`SM-AUD-01 = COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
+`SM-AUD-02 = COMPLETE / PASS / 58/58 OD IDENTITIES ACCOUNTED / 0 STATUS CONFLICT`.
 
-`SM-AUD-01-FND-001 = RESOLVED / CLOSED` after the authorized SM-CHG-0001 correction and corrected SM-07 re-freeze.
+This endpoint preserves 9 `OPEN / NON-BLOCKING` ODs and 3 `DEFERRED` ODs exactly as classified by their applicable authorities; SM-AUD-02 did not re-decide them.
 
-Next permissible audit action: reconcile the already existing `SM-AUD-02` history/status against this endpoint before defining or starting any new SM-AUD-02 work.
+No SM-AUD-03 work is performed or authorized by this SM-AUD-02 completion/status backfill.
