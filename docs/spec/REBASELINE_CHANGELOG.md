@@ -34,21 +34,46 @@ Repository inspection recovered the exact authoritative SM-02A requirement inven
 
 `SM-AUD-01-EG-001` is therefore resolved as an evidence blocker.
 
-## Important audit observation
+## Historical documentation-sync observation
 
-The recovered SM-02A inventory contains ten V1 REQUIRED Portable Project Archive requirements (`ARC-001…ARC-010`). The later SM-07 contract locally deferred Project File / Project Data Import. This has deliberately not been reconciled or rewritten during the documentation sync; it is an explicit SM-AUD-01 audit target.
+At the original rebaseline documentation-sync point, the recovered SM-02A inventory contained ten V1 REQUIRED Portable Project Archive requirements (`ARC-001…ARC-010`) while the then-later SM-07 contract locally deferred Project File / Project Data Import. That sync deliberately did not reconcile or rewrite the contradiction; it became the SM-AUD-01 audit target.
+
+The later authorized `SM-AUD-01R` / `SM-CHG-0001` chain corrected and verified the archive contract, recovered the affected SM-07B OD provenance, re-froze SM-07, and closed `SM-AUD-01-FND-001`. SM-AUD-01 subsequently reached `COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
+
+## SM-AUD-02 OD Master Register Reconciliation
+
+After the SM-AUD-01 post-correction endpoint, the already planned SM-AUD-02 OD Master Register Reconciliation was authorized and performed.
+
+The former `OPEN_DETAILS_AND_HANDOFFS.md` registry, which explicitly represented only the state through SM-05K, was reconciled against the latest applicable authorities through corrected/final-verified/re-frozen SM-07 and updated as the current OD Master Register & Handoffs.
+
+Verified master inventory:
+
+- unique OD identities: 58
+- `RESOLVED / FROZEN`: 46
+- `OPEN / NON-BLOCKING`: 9
+- `DEFERRED`: 3
+- `STATUS CONFLICT`: 0
+
+`46 + 9 + 3 + 0 = 58`.
+
+The reconciliation preserved historical handoff states, did not silently resolve the nine open ODs, did not re-decide the three deferred SM-07B OD identities, introduced no new OD or product semantic change, and began no SM-AUD-03 work.
+
+`SM-AUD-02 OD MASTER INVENTORY & CLASSIFICATION VERIFICATION = PASS`.
+
+`SM-AUD-02 COMPLETION / CONSISTENCY GATE = PASS`.
+
+`SM-AUD-02 = COMPLETE / PASS`.
 
 ## Current authoritative endpoint
 
-`SM-AUD-01A = PASS / 106-ROW BASELINE RECOVERED / SM-AUD-01 READY TO RESUME`.
+`SM-AUD-02 = COMPLETE / PASS / 58/58 OD IDENTITIES ACCOUNTED / 0 STATUS CONFLICT`.
 
-## Explicitly not done by this documentation sync
+## Explicitly not done by this SM-AUD-02 completion/status backfill
 
 - no legacy implementation reconciliation
 - no merge to `main`
 - no modification of frozen product contracts
-- no invented/rephrased SM-02A requirements
-- no SM-AUD-01 coverage verdict
-- no SM-AUD-02+ work
+- no new or re-decided OD semantics
+- no SM-AUD-03 work
 
-This changelog exists so the documentation transfer itself can be audited without confusing it with product implementation or a new specification decision.
+The earlier changelog statement `no SM-AUD-02+ work` described the original documentation-sync boundary and is superseded by the later explicitly authorized SM-AUD-02 audit chain recorded above.
