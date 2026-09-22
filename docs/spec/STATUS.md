@@ -15,7 +15,8 @@
 | SM-AUD-00 | V1 Total Audit Scope / Evidence | COMPLETE |
 | SM-AUD-01 | 106-Requirement Master Coverage Matrix | **COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED** |
 | SM-AUD-01A | Authoritative 106-Row Baseline Recovery | **PASS** |
-| SM-AUD-02+ | later audit stages | NOT AUTHORIZED |
+| SM-AUD-02 | OD Master Register Reconciliation | **COMPLETE / PASS / 58/58 ACCOUNTED / 0 STATUS CONFLICT** |
+| SM-AUD-03+ | later audit stages | NOT STARTED BY SM-AUD-02 |
 
 ## Recovered audit authority
 
@@ -37,6 +38,28 @@ The original SM-AUD-01 contradiction for `ARC-001…ARC-010` was resolved throug
 
 `SM-AUD-01-FND-001 = RESOLVED / CLOSED`.
 
+## SM-AUD-02 OD master reconciliation
+
+The authorized SM-AUD-02 reconciliation is recorded in `OPEN_DETAILS_AND_HANDOFFS.md`, now serving as the current OD Master Register & Handoffs.
+
+Verified current classification:
+
+- unique OD identities: 58
+- `RESOLVED / FROZEN`: 46
+- `OPEN / NON-BLOCKING`: 9
+- `DEFERRED`: 3
+- `STATUS CONFLICT`: 0
+
+Control equation: `46 + 9 + 3 + 0 = 58`.
+
+The nine open ODs remain preserved under their applicable SM-04 authority. The three deferred SM-07B archive-related identities retain their historical deferred classification; recovered Class-A provenance and later compatibility verification are not treated as evidence gaps or silent OD re-decisions.
+
+`SM-AUD-02 OD MASTER INVENTORY & CLASSIFICATION VERIFICATION = PASS`.
+
+`SM-AUD-02 COMPLETION / CONSISTENCY GATE = PASS`.
+
+`SM-AUD-02 = COMPLETE / PASS`.
+
 ## Current audit state
 
 - SM-AUD-00: COMPLETE
@@ -46,8 +69,9 @@ The original SM-AUD-01 contradiction for `ARC-001…ARC-010` was resolved throug
 - contradicted requirements: 0
 - missing/evidence-gap requirements: 0
 - SM-AUD-01-FND-001: RESOLVED / CLOSED
-- SM-AUD-02+: status/history must be reconciled from the already existing audit chain before any new SM-AUD-02 work is defined or started
+- SM-AUD-02: COMPLETE / PASS / 58/58 OD identities accounted / 0 status conflicts
+- SM-AUD-03+: not started by this completion/status backfill
 
 ## Next allowed specification step
 
-Reconcile the already existing `SM-AUD-02` audit history/status against this completed SM-AUD-01 post-correction state before defining or starting any new SM-AUD-02 work.
+No SM-AUD-03 work is performed or authorized by this SM-AUD-02 completion/status backfill. Any subsequent audit stage must follow its own applicable scope/authorization.
