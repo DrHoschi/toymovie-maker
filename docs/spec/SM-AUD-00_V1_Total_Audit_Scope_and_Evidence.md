@@ -91,4 +91,4 @@ Local PASS/FROZEN results for SM-03…07 do not automatically imply V1 total PAS
 - new decisions: 0
 - OD changes: 0
 - frozen-contract changes: 0
-- V1 total verdict: not yet performed
+- V1 total verdict: not yet performed by SM-AUD-00 (inventory-only gate); later audit outcomes are recorded in MASTER_INDEX.md and STATUS.md.
