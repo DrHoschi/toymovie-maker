@@ -77,3 +77,15 @@ The reconciliation preserved historical handoff states, did not silently resolve
 - no SM-AUD-03 work
 
 The earlier changelog statement `no SM-AUD-02+ work` described the original documentation-sync boundary and is superseded by the later explicitly authorized SM-AUD-02 audit chain recorded above.
+
+
+## Subsequent audit and implementation-readiness documentation
+
+The following gate outcomes were completed in the project conversation and recorded on this branch at audited baseline `821c39592bdf5ebdd99cb5475720024988907740`:
+
+- SM-AUD-04: V1 Functional Completeness VERIFIED (106/106 requirements, 58/58 OD identities and 18/18 cross-boundary contracts accounted).
+- SM-AUD-05: BLOCKED – EXPECTED IMPLEMENTATION GAP. The 40 commits from `main` to this branch change README and `docs/spec/*`, with no runtime product-file changes; no V1 implementation against the rebuilt contracts is established.
+- SM-MIG-01: read-only migration assessment and dependency-ordered implementation scope recorded.
+- `V1_IMPLEMENTATION_AND_TEST_ROADMAP.md`: remaining documentation, implementation and test sequence recorded.
+
+The current status is maintained in `STATUS.md`; these records do not change product requirements or authorize implementation. They supersede this changelog's earlier “current endpoint” and “not done” statements where those statements named SM-AUD-02 or SM-AUD-03 as the latest endpoint. The SM-05 status is reconciled to ASSEMBLY-READY / NOT FROZEN because its own SM-05K endpoint requires SM-05L and no later freeze record exists at the audited baseline.

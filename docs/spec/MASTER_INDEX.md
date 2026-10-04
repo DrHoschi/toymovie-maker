@@ -1,77 +1,74 @@
 # StopMotion V1 – Master Specification Index
 
-## Repository role of this branch
+## Repository role and authority
 
 Branch: `feature/stopmotion-v1-spec-rebaseline`
 
-This branch captures the newly planned StopMotion product as a specification baseline. The old implementation on `main` is retained only as repository history and is not treated as authoritative for the new product contracts documented here.
+This development branch is the working specification baseline for the rebuilt StopMotion V1. The prototype inherited from `main` is not authoritative for the new V1 contracts.
 
-## Document authority order
-
+Authority order:
 1. SM-00 decisions and product scope
-2. SM-02 functional requirements/contracts, including the authoritative 106-row SM-02A inventory
-3. frozen textual contracts in SM-03…SM-07
-4. visual low-fi/mockups
-5. later implementation details
+2. SM-02 functional requirements, including the authoritative 106-row inventory
+3. Applicable textual contracts in SM-03…SM-07, with each document's current freeze state shown in `STATUS.md`
+4. Visual low-fi/mockups
+5. Later implementation details
 
-Implementation must conform upward; it must not silently redefine product behavior.
+SM-05 is currently assembly-ready but not frozen. No implementation may use an open or deferred OD as an unstated product decision.
 
 ## Current document map
 
-- `SM-00_Project_Master_and_Scope.md`
-- `SM-01_Decision_and_Change_Log.md`
-- `SM-02_Functional_Specification.md`
-- `SM-03_UI_UX_and_Navigation.md`
-- `SM-04_Camera_and_Capture_Engine.md`
-- `SM-05_Timeline_Playback_and_Frame_Editing.md`
-- `SM-06_Persistence_Autosave_and_Recovery.md`
-- `SM-07_Import_and_Export.md`
-- `SM-AUD-00_V1_Total_Audit_Scope_and_Evidence.md`
-- `SM-AUD-01A_Authoritative_106_Row_Baseline_Recovery.md`
-- `OPEN_DETAILS_AND_HANDOFFS.md` – current SM-AUD-02 OD Master Register & Handoffs
-- `STATUS.md`
+- SM-00 through SM-07: product scope and functional contracts
+- SM-AUD-00 through SM-AUD-05: V1 scope, specification and implementation-evidence audits
+- SM-MIG-01: read-only legacy migration assessment
+- V1_IMPLEMENTATION_AND_TEST_ROADMAP.md: remaining gates and path to product testing
+- OPEN_DETAILS_AND_HANDOFFS.md: OD master register and cross-document handoffs
+- STATUS.md: current gate state and immediate next step
 
-## V1 total-audit line
+## V1 specification audit chain
 
-- `SM-AUD-00` – V1 Total Audit Scope / Evidence Reconciliation: COMPLETE
-- `SM-AUD-01` – 106-Requirement Master Coverage Matrix: COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED
-- `SM-AUD-01A` – Authoritative 106-Row Baseline Recovery: PASS
-- `SM-AUD-02` – OD Master Register Reconciliation: COMPLETE / PASS / 58/58 ACCOUNTED / 0 STATUS CONFLICT
-- `SM-AUD-03` – Cross-Boundary Contract Audit: COMPLETE / PASS / 18/18 PASS / 0 CONFLICT / 0 EVIDENCE GAP
+- SM-AUD-00: COMPLETE / inventory only
+- SM-AUD-01: COMPLETE / PASS / 106 requirements covered / 0 contradicted
+- SM-AUD-01A: PASS / authoritative 106-row baseline recovered
+- SM-AUD-02: COMPLETE / PASS / 58 of 58 OD identities accounted / 0 status conflicts
+- SM-AUD-03: COMPLETE / PASS / 18 of 18 cross-boundary contracts / 0 conflict / 0 evidence gap
+- SM-AUD-04: COMPLETE / PASS / V1 Functional Completeness VERIFIED
+- SM-AUD-05: COMPLETE / BLOCKED – EXPECTED IMPLEMENTATION GAP
 
-The repository itself provides the authoritative SM-02A 106-row inventory in `SM-02_Functional_Specification.md`. The prior evidence blocker `SM-AUD-01-EG-001` is resolved.
+SM-AUD-04 closes the functional completeness question for the audited V1 baseline. SM-AUD-05 is a separate product-evidence audit: the current branch contains no implementation reconciled to the new V1 contracts, so implementation completeness and its verification remain unestablished. Neither audit establishes release or app-store readiness.
 
-The current OD master register in `OPEN_DETAILS_AND_HANDOFFS.md` accounts for 58 unique OD identities exactly once:
-`46 RESOLVED/FROZEN + 9 OPEN/NON-BLOCKING + 3 DEFERRED + 0 STATUS CONFLICT = 58`.
+## Specification baseline details
 
-## Critical audit guard
+The authoritative SM-02A inventory contains 106 requirements:
+`PRJ 9 + CAP 20 + ONS 5 + AST 5 + TML 6 + PLY 10 + EDT 14 + RCV 14 + IMG 2 + EXP 5 + ARC 10 + SET 6 = 106`.
 
-No local block PASS or FROZEN status was promoted automatically to V1 total PASS. SM-AUD-01 individually accounted for all 106 authoritative SM-02A rows. Its original `ARC-001…ARC-010` contradiction was resolved only through the separately authorized `SM-AUD-01R` / `SM-CHG-0001` correction, verification, provenance recovery and SM-07 re-freeze chain.
+The current OD master classifies 58 unique identities:
+`46 RESOLVED / FROZEN + 9 OPEN / NON-BLOCKING + 3 DEFERRED + 0 STATUS CONFLICT = 58`.
+The open and deferred identities retain their current classifications; this index does not resolve them or treat them as hidden implementation assumptions.
 
-Current requirement result: `SM-AUD-01-FND-001 = RESOLVED / CLOSED`; `SM-AUD-01 = COMPLETE / PASS / 106 COVERED / 0 CONTRADICTED / 0 EVIDENCE GAP`.
+SM-AUD-03's 18/18 result records the cross-boundary audit result. The separate SM-05 status remains ASSEMBLY-READY / NOT FROZEN, as stated in SM-05 itself and the reconciled status register.
 
-SM-AUD-02 did not silently resolve open ODs or reinterpret deferred ODs. Its current master result is `58/58 ACCOUNTED / 46 RESOLVED-FROZEN / 9 OPEN-NON-BLOCKING / 3 DEFERRED / 0 STATUS CONFLICT`.
+## Implementation baseline and migration
 
-## SM-AUD-03 cross-boundary audit
+The migration assessment found that the 40 commits from `main` to the audited branch head changed README and `docs/spec/*`, not runtime product files. The inherited prototype therefore is not evidence of implementation against the rebuilt V1 contracts.
 
-The frozen SM-AUD-03 audit matrix contains 18 concrete cross-boundary contracts spanning SM-00…SM-07 and the SM-AUD-02 OD/handoff lifecycle. All 18 were audited against their existing authority evidence.
+The migration recommendation and dependency-ordered implementation blocks are recorded in `SM-MIG-01_V1_Implementation_Baseline_and_Migration_Scope.md`. The complete remaining documentation, implementation and test sequence is in `V1_IMPLEMENTATION_AND_TEST_ROADMAP.md`.
 
-Result: `18/18 PASS / 0 CONFLICT / 0 EVIDENCE GAP`.
+## Remaining specification gates
 
-The audit introduced 0 corrections, 0 OD re-decisions and 0 new product semantics. The 9 `OPEN / NON-BLOCKING` and 3 `DEFERRED` OD classifications remain unchanged.
+1. SM-05L assembly.
+2. SM-05 final verification.
+3. SM-05 freeze.
+4. SM-08 Technical Architecture & Platform.
+5. SM-09 Validation & Test Specification.
+6. SM-CA-01 project-wide cross-audit.
+7. Final V1 specification snapshot, only after required gates pass.
 
-## Future documents after the V1 specification audit
-
-Technical architecture, implementation planning and validation/test specification are not authorized merely by this documentation sync. They require their own later scope/authorization.
-
-## Final specification freeze target
-
-Only after the V1 total audit reaches its authorized completion gate with no unresolved V1 blockers may a final project-wide specification snapshot be considered.
+These are distinct work steps. This status/index update does not execute them or change product requirements.
 
 ## Current authoritative endpoint
 
-`SM-AUD-03 = COMPLETE / PASS / 18/18 CROSS-BOUNDARY CONTRACTS PASS / 0 CONFLICT / 0 EVIDENCE GAP`.
+- Functional baseline: SM-AUD-04 COMPLETE / V1 FUNCTIONAL COMPLETENESS VERIFIED.
+- Product implementation baseline: SM-AUD-05 BLOCKED / implementation and verification not established.
+- Specification readiness: not final; SM-05L and the later gates above remain open.
 
-This endpoint preserves the SM-AUD-02 master classification of 46 `RESOLVED / FROZEN`, 9 `OPEN / NON-BLOCKING`, 3 `DEFERRED` and 0 `STATUS CONFLICT`; SM-AUD-03 did not re-decide them.
-
-No SM-AUD-04 work is performed or authorized by this SM-AUD-03 completion/evidence/status backfill.
+Next documentation step: SM-05L – Specification Assembly V0.1. Continue with its final verification and freeze only through their own gates.

@@ -1,122 +1,86 @@
-# StopMotion App – Projektdokumentation (Rebaseline)
+# StopMotion App – Project Documentation (V1 Rebaseline)
 
-## Zweck
+## Purpose
 
-Dieses Dokument ist die konsolidierte Projektübersicht für den neu geplanten StopMotion-V1-Stand. Es verweist auf die detaillierten SM-Dokumente und hält die Gesamtstruktur zusammen.
+This is the overview for the rebuilt StopMotion V1. The active working baseline is the development branch `feature/stopmotion-v1-spec-rebaseline`. The older prototype inherited from `main` is historical input, not the authority for the new product contracts.
 
-## Projektziel
+## Product goal
 
-Eine offline-first Stop-Motion-App für Smartphones mit zuverlässiger Frame-by-Frame-Aufnahme, Onion Skin, Capture Assistance, sichtbarer Timeline, Playback, nicht-destruktiver Frame-/Textbearbeitung, Autosave/Recovery sowie Import/Export einschließlich portierbarem editierbarem Projektarchiv.
+An offline-first, smartphone-first stop-motion app with frame-by-frame capture, onion skin and capture assistance, a visible timeline, playback, non-destructive frame/text editing, autosave and recovery, image/project import, and media plus editable-project export.
 
-## Spezifikationskette
+## Authority
 
-1. `SM-00 – Project Master & Scope`
-2. `SM-01 – Decision & Change Log`
-3. `SM-02 – Functional Specification`
-4. `SM-03 – UI/UX & Navigation`
-5. `SM-04 – Camera & Capture Engine`
-6. `SM-05 – Timeline, Playback & Frame Editing`
-7. `SM-06 – Project Data, Storage & Recovery`
-8. `SM-07 – Import, Export & Media Pipeline`
-9. `SM-08 – Technical Architecture & Platform`
-10. `SM-09 – Validation & Test Specification`
-11. `SM-CA-01 – Gesamt-Cross-Audit`
+1. SM-00 decisions and scope
+2. SM-02 functional requirements (106 authoritative atomic V1 requirements)
+3. Applicable textual contracts SM-03…SM-07, respecting each document's freeze state
+4. Visual references
+5. Implementation details
 
-## Aktueller Stand
+The nine OPEN/NON-BLOCKING and three DEFERRED OD identities remain governed by `OPEN_DETAILS_AND_HANDOFFS.md`; they are not implicit implementation decisions. SM-05 is ASSEMBLY-READY / NOT FROZEN pending SM-05L and separate verification/freeze gates.
 
-- SM-00: V0.1 DRAFT / INTERNALLY CONSISTENT
-- SM-01: V0.1 DRAFT / PASS / 0 BLOCKER
-- SM-02: V0.1 DRAFT / 106/106 / PASS / 0 BLOCKER
-- SM-03: FROZEN / CROSS-AUDIT PASS / 0 BLOCKER
-- SM-04: FROZEN / CAP 20/20 / ONS 5/5 / AST 5/5 / 0 BLOCKER
-- SM-05: bis SM-05K vollständig reconciliert und geprüft / TML 6/6 / PLY 10/10 / EDT 14/14 / 30/30 / 0 BLOCKER / ASSEMBLY-READY / NOT FROZEN
+## Specification sequence
 
-## Wichtige Produktinvarianten
+1. SM-00 – Project Master & Scope
+2. SM-01 – Decision & Change Log
+3. SM-02 – Functional Specification
+4. SM-03 – UI/UX & Navigation
+5. SM-04 – Camera & Capture Engine
+6. SM-05 – Timeline, Playback & Frame Editing
+7. SM-06 – Persistence, Autosave & Recovery
+8. SM-07 – Import & Export
+9. SM-08 – Technical Architecture & Platform
+10. SM-09 – Validation & Test Specification
+11. SM-CA-01 – Project-wide cross-audit and final specification closure
 
-- Stable Frame Identity ist getrennt von Sequence Position.
-- Requested Camera State ist nicht automatisch Effective Camera State.
-- Preview ist nicht Capture Output.
-- Capture Output ist nicht automatisch ein durable Frame.
-- Ein akzeptierter Capture Trigger erzeugt höchstens einen gültigen Capture Output.
-- Onion/Assistenz/UI werden nicht in das Capture Output eingebrannt.
-- Sequence ist die einzige autoritative Frame-Reihenfolge.
-- Selection und Playback Playhead sind getrennte Zustände.
-- Playback verwendet einen projektweiten FPS-Wert; keine per-frame duration ist V1-Pflicht.
-- Editor arbeitet nicht-destruktiv: Original + Annotation State = Rendered Result.
-- Undo ist nicht Recovery.
-- Recovery ist nicht Undo-History.
-- Empty Frame ist ein valider Frame-Typ und kein Missing/Damaged-Placeholder.
-- Smartphone und Tablet dürfen unterschiedliche Layoutgeometrie besitzen, aber keine unterschiedlichen fachlichen Capabilities.
+## Current status
 
-## V1 UI-Struktur
+- SM-00: V0.1 DRAFT / internally consistent
+- SM-01: V0.1 DRAFT / PASS / 0 blocker
+- SM-02: V0.1 DRAFT / 106/106 / PASS / 0 blocker
+- SM-03: FROZEN
+- SM-04: FROZEN / CAP 20/20 / ONS 5/5 / AST 5/5
+- SM-05: SM-05A…K complete / 30/30 / assembly-ready / NOT FROZEN
+- SM-06: COMPLETE / FINAL-VERIFIED / FROZEN
+- SM-07: CORRECTED / FINAL-VERIFIED / RE-FROZEN
+- SM-AUD-00…03: COMPLETE; see MASTER_INDEX.md for results
+- SM-AUD-04: COMPLETE / V1 Functional Completeness VERIFIED
+- SM-AUD-05: COMPLETE / BLOCKED – EXPECTED IMPLEMENTATION GAP
 
-Frozen Primary Screens:
-- SCR-01 Home / Project Library
-- SCR-02 Capture Workspace
-- SCR-03 Sequence Workspace
-- SCR-04 Frame Editor
-- SCR-05 Settings
+SM-AUD-04 establishes functional completeness of the audited V1 baseline. SM-AUD-05 separately records that implementation and implementation verification remain unestablished. Neither result establishes release readiness.
 
-Contextual Surfaces:
-- New Project
-- Camera Controls
-- Image Import
-- Media Export
-- Project Archive Transfer
+## Product invariants
 
-Recovery Surfaces:
-- Inline Status
-- Attention Overlay
-- Recovery Review
+- Stable frame identity is separate from sequence position.
+- Requested Camera State is separate from Effective Camera State.
+- Preview is not Capture Output.
+- Capture Output is not a durable Frame until successful persistence/registration.
+- Onion skin, assistance and UI are not baked into captured originals.
+- Sequence is the sole authority for frame order.
+- Selection and Playback Playhead are separate states.
+- Playback uses project-wide FPS; per-frame duration is not a V1 requirement.
+- Editing is non-destructive: original content plus annotation state yields the rendered result.
+- Undo is not Recovery; Recovery is not Undo History.
+- Empty Frame is valid and distinct from Missing/Damaged.
+- Phone and tablet layouts may differ, while functional capabilities remain consistent.
 
-## Requirement-Gesamtbestand
+## Requirement baseline
 
-SM-02 umfasst 106 atomare V1-Required-Anforderungen:
-- PRJ 9
-- CAP 20
-- ONS 5
-- AST 5
-- TML 6
-- PLY 10
-- EDT 14
-- RCV 14
-- IMG 2
-- EXP 5
-- ARC 10
-- SET 6
+SM-02 contains 106 V1 REQUIRED requirements:
+PRJ 9, CAP 20, ONS 5, AST 5, TML 6, PLY 10, EDT 14, RCV 14, IMG 2, EXP 5, ARC 10 and SET 6.
 
-## Aktuelle Cross-Boundary-Handoffs
+## Open handoffs
 
-### SM-04 → Persistence/Registration → SM-05
+- SM-04 capture output becomes a sequence frame only after persistence/registration.
+- SM-05 editing and sequence mutations hand off durable storage and recovery behavior to SM-06.
+- SM-07 owns import/export pipelines; SM-05 owns sequence semantics after successful registration.
+- The current OD handoffs and classifications remain in `OPEN_DETAILS_AND_HANDOFFS.md`.
 
-SM-04 endet grundsätzlich bei einem validen `Capture Output Ready`.
-Ein Frame wird erst nach Persistence/Registration zum autoritativen Sequence Member.
+## Path to implementation and testing
 
-### SM-05 → SM-06
+The next documentation step is SM-05L assembly, followed by separate SM-05 final-verification and freeze gates. Then SM-08 defines the architecture/platform boundary, SM-09 defines validation and test evidence, and SM-CA-01 closes the complete specification baseline.
 
-SM-06 muss durable storage, atomic metadata writes, recovery, orphan handling und Recovery Status Semantics konkretisieren.
+After those gates pass, implementation proceeds in dependency-ordered, requirement-traceable blocks. Each block gets scoped implementation and verification evidence. The complete 106-requirement baseline is then re-evaluated for implementation/verification completeness; device/build evidence is mapped to the target platform and concrete tested build. The detailed exit conditions and work order are in `V1_IMPLEMENTATION_AND_TEST_ROADMAP.md`.
 
-`RCV-OD-001` ist an SM-06 weitergereicht: vor normaler Sequence-Registrierung eines recovered orphan muss SM-06 eine deterministische Position bestimmen.
+## Freeze rule
 
-`RCV-OD-002 – Recovered status lifetime` bleibt OPEN/NON-BLOCKING für SM-06.
-
-### SM-05 → SM-07
-
-SM-07 besitzt Import/Export-Pipeline, Formate, Validierung und Encoding.
-
-Nach erfolgreicher Einzelbild-Registrierung gilt die in SM-05J definierte Sequence-Insertionsregel.
-
-MP4 Export verwendet standardmäßig den Project FPS.
-
-## Freeze-Regel
-
-Einzelne Dokumente dürfen nur nach explizitem Freeze Gate eingefroren werden.
-Frozen Contracts dürfen nicht stillschweigend durch Mockups oder Implementation geändert werden.
-
-Der finale Snapshot `STOPMOTION_V1_SPEC_SNAPSHOT_001` darf erst nach SM-00…SM-09 und `SM-CA-01 = PASS / 0 BLOCKER` erstellt werden.
-
-## Nächster zulässiger Schritt
-
-`SM-05L – Specification Assembly V0.1`
-
-Dabei wird nur SM-05A…K zu einem konsolidierten formalen SM-05-V0.1-Dokument assembled. Kein Final Verification Gate und kein Freeze im selben Schritt.
+A contract freezes only through its explicit freeze gate. The project snapshot `STOPMOTION_V1_SPEC_SNAPSHOT_001` is considered only after SM-00…SM-09 and SM-CA-01 reach their required completion status. Functional completeness alone is not implementation completion, test completion or release readiness.
