@@ -19,7 +19,7 @@ This development branch contains the newly structured StopMotion V1 product spec
 - SM-02: V0.1 DRAFT / 106/106 requirements covered / PASS / 0 blocker
 - SM-03: FROZEN
 - SM-04: FROZEN / CAP 20/20 / ONS 5/5 / AST 5/5
-- SM-05: SM-05A…K complete / 30/30 / assembly-ready / **not frozen**; SM-05L assembly remains open
+- SM-05: **V0.1 ASSEMBLED** / 30/30 / Final Verification not started / not frozen
 - SM-06: COMPLETE / FINAL-VERIFIED / FROZEN
 - SM-07: CORRECTED / FINAL-VERIFIED / RE-FROZEN
 - SM-AUD-01: COMPLETE / PASS / 106/106 covered
@@ -46,8 +46,8 @@ SM-AUD-04 verifies the defined functional baseline. It does not establish implem
 
 ## Remaining specification sequence
 
-1. SM-05L – assemble SM-05A…K into SM-05 V0.1.
-2. Perform SM-05 final verification and freeze as separate gates.
+1. Perform SM-05 Final Verification.
+2. Perform the SM-05 Freeze Gate as a separate step.
 3. Define SM-08 – Technical Architecture & Platform.
 4. Define SM-09 – Validation & Test Specification.
 5. Run SM-CA-01 – project-wide specification cross-audit.
@@ -57,6 +57,6 @@ After the specification baseline is ready, V1 implementation proceeds in scoped 
 
 ## Authority rule
 
-The authority order is: SM-00 decisions and scope → SM-02 requirements → applicable textual SM-03…SM-07 contracts → visual low-fi/mockups → implementation details. Each document's freeze status is stated in [STATUS.md](docs/spec/STATUS.md); SM-05 is not frozen until its separate assembly, verification, and freeze gates are complete.
+The authority order is: SM-00 decisions and scope → SM-02 requirements → applicable textual SM-03…SM-07 contracts → visual low-fi/mockups → implementation details. Each document's freeze status is stated in [STATUS.md](docs/spec/STATUS.md); SM-05 is assembled as V0.1; it remains not frozen until Final Verification and the separate freeze gate complete.
 
 Implementation must conform to the approved contracts. Legacy prototype behavior and visual mockups do not silently redefine V1.

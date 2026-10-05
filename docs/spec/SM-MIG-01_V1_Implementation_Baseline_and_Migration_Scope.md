@@ -39,7 +39,7 @@ The branch's V1 authority remains SM-00, SM-02 and applicable SM-03…SM-07 cont
 
 ## Dependency-ordered implementation blocks
 
-1. **Complete specification readiness first:** finish SM-05L assembly, SM-05 final verification/freeze, then SM-08 architecture/platform, SM-09 validation/test specification and SM-CA-01.
+1. **Complete specification readiness first:** SM-05L is assembled; perform SM-05 Final Verification and its separate freeze gate, then SM-08 architecture/platform, SM-09 validation/test specification and SM-CA-01.
 2. **Project model, settings and persistence/recovery:** PRJ 9, SET 6, RCV 14. Establish stable project/frame identity, durable writes and recovery semantics.
 3. **Capture and assistance:** CAP 20, ONS 5, AST 5. Preserve the boundary between capture output and a durably registered Sequence frame.
 4. **Sequence, timeline and frame editing:** TML 6, EDT 14. Keep stable identity, mutable order, mutation rules, Undo and non-destructive annotations aligned.

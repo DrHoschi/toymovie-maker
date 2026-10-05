@@ -1,12 +1,53 @@
-# SM-05 – Timeline, Playback & Frame Editing
+# SM-05 V0.1 – Timeline, Playback & Frame Editing
 
-## Current status
+## Document status
 
-`SM-05A…J COMPLETE / SM-05K PASS / TML 6/6 / PLY 10/10 / EDT 14/14 / 30/30 / 0 BLOCKER / ASSEMBLY-READY / NOT FROZEN`
+**ASSEMBLED V0.1 / FINAL VERIFICATION NOT STARTED / NOT FROZEN**
 
-This document records all contracts and reconciliations completed through `SM-05K – Functional Coverage & Internal Consistency Gate`.
+This formal V0.1 document consolidates the completed SM-05A…K contract and reconciliation blocks below. Their detailed source-block evidence is retained for traceability. This assembly does not change their decisions, perform final verification, or freeze the document.
 
-The next allowed step is `SM-05L – Specification Assembly V0.1`. No freeze has occurred yet.
+## Purpose and scope
+
+SM-05 defines behavior for the registered project Sequence: visible order, frame selection and navigation, playback, and V1 frame/text editing. It applies after successful persistence and registration. SM-05 does not own camera capture, durable storage/recovery, or import/export processing.
+
+## Consolidated normative contract
+
+- **Identity and Sequence:** Frame identity is stable and distinct from mutable Sequence position. The Sequence is the sole authority for active frames and their order; a timeline is a projection of that state.
+- **Selection and context:** Selection, playback playhead, playback starting frame, and editor frame context are separate identities with the validity and transition rules in SM-05B…D and reconciliations SM-05F…J.
+- **Mutations:** Delete, duplicate, move/reorder, and Empty Frame creation follow SM-05B/E/F. Duplicate and Empty Frame create valid new identities. Empty Frame is distinct from Missing or Damaged content.
+- **Playback:** Playback supports STOPPED/PLAYING/PAUSED, Play/Pause/Stop, loop on/off, Sequence navigation, current-frame/counter presentation, and one project-wide FPS. Start, stop, progression, loop, runtime FPS changes and Missing/Damaged behavior follow SM-05C/G.
+- **Editing and Undo:** V1 supports the specified frame mutations and non-destructive text annotations. Original frame content remains separate from editable annotation state. Undo coverage, restored selection, lifecycle and grouping follow SM-05D/E/I; Undo is distinct from autosave and recovery.
+- **Cross-boundary handoffs:** SM-05 consumes a frame only after persistence/registration. Successful image import hands a registered frame to Sequence under SM-05J. Recovered-orphan placement and recovery-status lifetime remain with SM-06 under the documented handoffs.
+- **Ownership:** SM-04 owns camera/capture behavior; SM-06 owns durable persistence/autosave/recovery; SM-07 owns import/export pipelines. SM-05 does not redefine those boundaries.
+
+## Requirement coverage carried into V0.1
+
+| Requirement group | Required | Covered by source gates |
+|---|---:|---:|
+| TML | 6 | 6 |
+| PLY | 10 | 10 |
+| EDT | 14 | 14 |
+| **Total** | **30** | **30** |
+
+This is the SM-05K specification-level result, not runtime implementation or test evidence.
+
+## Assembly provenance
+
+| Source block | Content carried into this document |
+|---|---|
+| SM-05A | Scope and responsibility reconciliation |
+| SM-05B | Sequence and selection state |
+| SM-05C | Playback state and playhead |
+| SM-05D | Frame editor and non-destructive annotations |
+| SM-05E | Undo and edit mutation contract |
+| SM-05F | Sequence mutation edge cases |
+| SM-05G | Playback interaction edge cases |
+| SM-05H | Annotation edge cases |
+| SM-05I | Undo lifecycle and grouping |
+| SM-05J | Import/recovery Sequence handoffs |
+| SM-05K | Requirement coverage and internal consistency gate |
+
+The complete source-block records follow and retain their original gate outcomes and detailed rules. Any conflicts, omissions or required semantic changes found during final verification belong to that separate gate; this assembly does not pre-judge them.
 
 ---
 
@@ -620,8 +661,19 @@ No unauthorized V1 requirements were added for:
 
 SM-05 is **ASSEMBLY-READY**, but explicitly **NOT FROZEN**.
 
-## Next allowed step
+## Assembly result
 
-`SM-05L – Specification Assembly V0.1`
+`SM-05L – Specification Assembly V0.1 = ASSEMBLED`
 
-Only assemble/consolidate SM-05A…K into the formal V0.1 document. Do not perform Final Verification or Freeze in the same step.
+- SM-05A…K consolidated into formal V0.1: PASS
+- Requirement coverage carried forward: 30/30
+- Product decisions changed: 0
+- New requirements or ODs introduced: 0
+- Final Verification: NOT STARTED
+- Freeze: NOT FROZEN
+
+## Next separate gate
+
+`SM-05 – Final Verification`
+
+This assembly does not perform Final Verification and does not authorize or imply a Freeze.

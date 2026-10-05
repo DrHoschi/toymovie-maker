@@ -17,7 +17,7 @@ The 9 OPEN/NON-BLOCKING and 3 DEFERRED OD identities remain as recorded in `OPEN
 
 | Order | Work | Exit evidence |
 |---:|---|---|
-| 1 | SM-05L – assemble SM-05A…K into formal SM-05 V0.1 | Complete assembled contract with traceability preserved |
+| 1 | SM-05L – Specification Assembly V0.1 | **COMPLETE** – assembled contract with traceability preserved |
 | 2 | SM-05 Final Verification | Explicit verification result against assembled SM-05 |
 | 3 | SM-05 Freeze Gate | Separate freeze evidence; update status/index consistently |
 | 4 | SM-08 – Technical Architecture & Platform | Approved architecture/platform decisions mapped to existing requirements and contracts |
@@ -25,7 +25,7 @@ The 9 OPEN/NON-BLOCKING and 3 DEFERRED OD identities remain as recorded in `OPEN
 | 6 | SM-CA-01 – project-wide cross-audit | SM-00…SM-09 consistent, required contracts and handoffs accounted |
 | 7 | V1 specification snapshot | Consider `STOPMOTION_V1_SPEC_SNAPSHOT_001` only after the authorized gates pass |
 
-The old `STATUS.md` label that SM-05 was frozen was inconsistent with SM-05K and its own current-status section. The repository status is reconciled to **ASSEMBLY-READY / NOT FROZEN**; no product contract is changed by this correction.
+The old `STATUS.md` label that SM-05 was frozen conflicted with its documented assembly state. SM-05L has now assembled V0.1; Final Verification and Freeze remain open. This assembly changes no product contract.
 
 ## Implementation work order
 

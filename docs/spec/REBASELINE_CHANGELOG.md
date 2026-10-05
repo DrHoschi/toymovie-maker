@@ -89,3 +89,10 @@ The following gate outcomes were completed in the project conversation and recor
 - `V1_IMPLEMENTATION_AND_TEST_ROADMAP.md`: remaining documentation, implementation and test sequence recorded.
 
 The current status is maintained in `STATUS.md`; these records do not change product requirements or authorize implementation. They supersede this changelog's earlier “current endpoint” and “not done” statements where those statements named SM-AUD-02 or SM-AUD-03 as the latest endpoint. The SM-05 status is reconciled to ASSEMBLY-READY / NOT FROZEN because its own SM-05K endpoint requires SM-05L and no later freeze record exists at the audited baseline.
+
+
+## SM-05L – Specification Assembly V0.1
+
+SM-05A…K were assembled into the formal V0.1 document at `docs/spec/SM-05_Timeline_Playback_and_Frame_Editing.md`. The assembly adds a consolidated contract summary, requirement coverage summary and source-block traceability while retaining all detailed SM-05A…K records. It introduces no requirements, OD identities or product decisions.
+
+Result: `SM-05L = ASSEMBLED`; TML 6/6, PLY 10/10, EDT 14/14 (30/30 carried forward). Final Verification was not performed and SM-05 remains NOT FROZEN. The next separate gate is SM-05 Final Verification.
