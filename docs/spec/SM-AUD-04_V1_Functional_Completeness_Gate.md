@@ -29,7 +29,7 @@ This means the defined V1 functional scope is fully accounted for through 106/10
 
 SM-AUD-04 does not add requirements from the original concept document or from old prototype behavior. Post-V1 features remain outside V1 unless separately authorized through change control.
 
-SM-05's separate document status is ASSEMBLY-READY / NOT FROZEN; functional completeness is not a substitute for the outstanding SM-05L assembly, final verification and freeze gates.
+SM-05's separate document status is FINAL-VERIFIED / FROZEN; its completed assembly, verification and freeze gates remain distinct from this functional-completeness audit.
 
 ## Completion
 

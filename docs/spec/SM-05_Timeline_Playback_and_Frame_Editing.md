@@ -2,9 +2,9 @@
 
 ## Document status
 
-**ASSEMBLED V0.1 / FINAL VERIFICATION NOT STARTED / NOT FROZEN**
+**FROZEN / FINAL-VERIFIED / 30/30 / 0 BLOCKER**
 
-This formal V0.1 document consolidates the completed SM-05A…K contract and reconciliation blocks below. Their detailed source-block evidence is retained for traceability. This assembly does not change their decisions, perform final verification, or freeze the document.
+This formal V0.1 document consolidates the completed SM-05A…K contract and reconciliation blocks below. Their detailed source-block evidence is retained unchanged for traceability. Final Verification passed against assembled head `ce454acd1ee91859e54123a5cf963b8cadfd9381`; the separately authorized Freeze Gate then froze this contract.
 
 ## Purpose and scope
 
@@ -47,7 +47,7 @@ This is the SM-05K specification-level result, not runtime implementation or tes
 | SM-05J | Import/recovery Sequence handoffs |
 | SM-05K | Requirement coverage and internal consistency gate |
 
-The complete source-block records follow and retain their original gate outcomes and detailed rules. Any conflicts, omissions or required semantic changes found during final verification belong to that separate gate; this assembly does not pre-judge them.
+The complete source-block records follow and retain their original gate outcomes and detailed rules. Final Verification found no conflict, omission, new requirement or new OD; the freeze changes status and change-control state only.
 
 ---
 
@@ -659,7 +659,7 @@ No unauthorized V1 requirements were added for:
 
 `SM-05K – Functional Coverage & Internal Consistency Gate = PASS / 30/30 / 0 BLOCKER`.
 
-SM-05 is **ASSEMBLY-READY**, but explicitly **NOT FROZEN**.
+SM-05 subsequently passed Final Verification and its separately authorized Freeze Gate.
 
 ## Assembly result
 
@@ -669,11 +669,27 @@ SM-05 is **ASSEMBLY-READY**, but explicitly **NOT FROZEN**.
 - Requirement coverage carried forward: 30/30
 - Product decisions changed: 0
 - New requirements or ODs introduced: 0
-- Final Verification: NOT STARTED
-- Freeze: NOT FROZEN
+- Final Verification: PASS
+- Freeze: FROZEN
 
-## Next separate gate
+## Final Verification and Freeze record
 
-`SM-05 – Final Verification`
+Final Verification result: **PASS**.
 
-This assembly does not perform Final Verification and does not authorize or imply a Freeze.
+Verified assembled head: `ce454acd1ee91859e54123a5cf963b8cadfd9381`.
+
+- all eleven source blocks SM-05A…K are present
+- their detailed text is unchanged from the assembled baseline
+- TML 6/6, PLY 10/10 and EDT 14/14 agree with the V1 baseline, for 30/30 total
+- the consolidated contract is traceable to the source blocks
+- no new requirement or OD was identified
+- responsibility boundaries to SM-04, SM-06 and SM-07 remain preserved
+- the RCV-OD statuses recorded in SM-05J are historical handoffs; the current OD master register is authoritative
+- SM-07 uses the resolved import-placement rules without freezing or redefining the wider SM-05 contract
+- no runtime code or tests were changed or executed
+
+The separate, explicitly authorized SM-05 Freeze Gate is complete.
+
+`SM-05 = FROZEN / FINAL-VERIFIED / 30/30 / 0 BLOCKER`.
+
+The next separate documentation step is `SM-08 – Technical Architecture & Platform`.

@@ -16,7 +16,7 @@ An offline-first, smartphone-first stop-motion app with frame-by-frame capture, 
 4. Visual references
 5. Implementation details
 
-The nine OPEN/NON-BLOCKING and three DEFERRED OD identities remain governed by `OPEN_DETAILS_AND_HANDOFFS.md`; they are not implicit implementation decisions. SM-05 is ASSEMBLY-READY / NOT FROZEN pending SM-05L and separate verification/freeze gates.
+The nine OPEN/NON-BLOCKING and three DEFERRED OD identities remain governed by `OPEN_DETAILS_AND_HANDOFFS.md`; they are not implicit implementation decisions. SM-05 is FINAL-VERIFIED / FROZEN after its separate verification and freeze gates.
 
 ## Specification sequence
 
@@ -39,7 +39,7 @@ The nine OPEN/NON-BLOCKING and three DEFERRED OD identities remain governed by `
 - SM-02: V0.1 DRAFT / 106/106 / PASS / 0 blocker
 - SM-03: FROZEN
 - SM-04: FROZEN / CAP 20/20 / ONS 5/5 / AST 5/5
-- SM-05: V0.1 assembled / 30/30 / Final Verification not started / NOT FROZEN
+- SM-05: FROZEN / FINAL-VERIFIED / 30/30 / 0 blocker
 - SM-06: COMPLETE / FINAL-VERIFIED / FROZEN
 - SM-07: CORRECTED / FINAL-VERIFIED / RE-FROZEN
 - SM-AUD-00…03: COMPLETE; see MASTER_INDEX.md for results
@@ -77,7 +77,7 @@ PRJ 9, CAP 20, ONS 5, AST 5, TML 6, PLY 10, EDT 14, RCV 14, IMG 2, EXP 5, ARC 10
 
 ## Path to implementation and testing
 
-SM-05L assembly is complete. The next separate gate is SM-05 Final Verification, followed only if separately authorized by the SM-05 Freeze Gate. Then SM-08 defines the architecture/platform boundary, SM-09 defines validation and test evidence, and SM-CA-01 closes the complete specification baseline.
+SM-05L assembly, Final Verification and the separate Freeze Gate are complete. The next documentation step is SM-08, which defines the architecture/platform boundary; SM-09 then defines validation and test evidence, and SM-CA-01 closes the complete specification baseline.
 
 After those gates pass, implementation proceeds in dependency-ordered, requirement-traceable blocks. Each block gets scoped implementation and verification evidence. The complete 106-requirement baseline is then re-evaluated for implementation/verification completeness; device/build evidence is mapped to the target platform and concrete tested build. The detailed exit conditions and work order are in `V1_IMPLEMENTATION_AND_TEST_ROADMAP.md`.
 

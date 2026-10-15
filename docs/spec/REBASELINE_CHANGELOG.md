@@ -96,3 +96,22 @@ The current status is maintained in `STATUS.md`; these records do not change pro
 SM-05A…K were assembled into the formal V0.1 document at `docs/spec/SM-05_Timeline_Playback_and_Frame_Editing.md`. The assembly adds a consolidated contract summary, requirement coverage summary and source-block traceability while retaining all detailed SM-05A…K records. It introduces no requirements, OD identities or product decisions.
 
 Result: `SM-05L = ASSEMBLED`; TML 6/6, PLY 10/10, EDT 14/14 (30/30 carried forward). Final Verification was not performed and SM-05 remains NOT FROZEN. The next separate gate is SM-05 Final Verification.
+
+## SM-05 – Final Verification and Freeze
+
+SM-05 Final Verification was performed against assembled head `ce454acd1ee91859e54123a5cf963b8cadfd9381` and resulted in **PASS**.
+
+- all eleven source blocks SM-05A…K are present
+- their detailed text remains unchanged
+- coverage matches the V1 baseline: TML 6/6, PLY 10/10 and EDT 14/14, for 30/30 total
+- the consolidated contract remains traceable to its source blocks
+- no new requirement or OD was introduced
+- responsibility boundaries to SM-04, SM-06 and SM-07 remain preserved
+- SM-05J's RCV-OD statuses remain historical handoffs; the current OD master register remains authoritative
+- no runtime code or tests were changed or executed
+
+After the PASS result, the separately authorized SM-05 Freeze Gate was completed.
+
+Result: `SM-05 = FROZEN / FINAL-VERIFIED / 30/30 / 0 BLOCKER`.
+
+The freeze changes status and change-control state only; it does not modify the detailed SM-05A…K contracts, establish implementation completeness, or authorize runtime implementation. The next separate documentation step is SM-08 – Technical Architecture & Platform.

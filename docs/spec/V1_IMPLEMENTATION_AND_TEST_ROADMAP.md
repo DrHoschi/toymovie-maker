@@ -8,7 +8,7 @@ This roadmap connects the verified functional baseline to a testable V1 product.
 
 - SM-AUD-04: V1 Functional Completeness VERIFIED.
 - SM-AUD-05: BLOCKED because implementation and implementation-verification evidence are not established.
-- SM-05: assembly-ready, not frozen.
+- SM-05: FROZEN / FINAL-VERIFIED / 30/30 / 0 blocker.
 - No V1 implementation baseline or V1-mapped test suite is evidenced at audited head `821c39592bdf5ebdd99cb5475720024988907740`.
 
 The 9 OPEN/NON-BLOCKING and 3 DEFERRED OD identities remain as recorded in `OPEN_DETAILS_AND_HANDOFFS.md`. Their classifications are not a reason to invent behavior.
@@ -18,14 +18,14 @@ The 9 OPEN/NON-BLOCKING and 3 DEFERRED OD identities remain as recorded in `OPEN
 | Order | Work | Exit evidence |
 |---:|---|---|
 | 1 | SM-05L – Specification Assembly V0.1 | **COMPLETE** – assembled contract with traceability preserved |
-| 2 | SM-05 Final Verification | Explicit verification result against assembled SM-05 |
-| 3 | SM-05 Freeze Gate | Separate freeze evidence; update status/index consistently |
+| 2 | SM-05 Final Verification | **COMPLETE / PASS** – assembled SM-05 verified at `ce454acd1ee91859e54123a5cf963b8cadfd9381` |
+| 3 | SM-05 Freeze Gate | **COMPLETE** – SM-05 FROZEN / FINAL-VERIFIED / 30/30 / 0 blocker |
 | 4 | SM-08 – Technical Architecture & Platform | Approved architecture/platform decisions mapped to existing requirements and contracts |
 | 5 | SM-09 – Validation & Test Specification | Requirements-based test strategy, test environments, device matrix, evidence format and exit criteria |
 | 6 | SM-CA-01 – project-wide cross-audit | SM-00…SM-09 consistent, required contracts and handoffs accounted |
 | 7 | V1 specification snapshot | Consider `STOPMOTION_V1_SPEC_SNAPSHOT_001` only after the authorized gates pass |
 
-The old `STATUS.md` label that SM-05 was frozen conflicted with its documented assembly state. SM-05L has now assembled V0.1; Final Verification and Freeze remain open. This assembly changes no product contract.
+The old `STATUS.md` label that SM-05 was frozen conflicted with its documented assembly state. SM-05L assembled V0.1; Final Verification passed and the separately authorized Freeze Gate is complete. These status transitions change no product contract.
 
 ## Implementation work order
 

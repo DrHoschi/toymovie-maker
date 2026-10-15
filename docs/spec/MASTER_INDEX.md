@@ -13,7 +13,7 @@ Authority order:
 4. Visual low-fi/mockups
 5. Later implementation details
 
-SM-05 V0.1 is assembled; Final Verification has not started and the document is not frozen. No implementation may use an open or deferred OD as an unstated product decision.
+SM-05 V0.1 passed Final Verification and the separate Freeze Gate and is frozen. No implementation may use an open or deferred OD as an unstated product decision.
 
 ## Current document map
 
@@ -45,7 +45,7 @@ The current OD master classifies 58 unique identities:
 `46 RESOLVED / FROZEN + 9 OPEN / NON-BLOCKING + 3 DEFERRED + 0 STATUS CONFLICT = 58`.
 The open and deferred identities retain their current classifications; this index does not resolve them or treat them as hidden implementation assumptions.
 
-SM-AUD-03's 18/18 result records the cross-boundary audit result. The separate SM-05 status is V0.1 ASSEMBLED / NOT FROZEN; its Final Verification and freeze remain open.
+SM-AUD-03's 18/18 result records the cross-boundary audit result. SM-05 is FINAL-VERIFIED / FROZEN with TML 6/6, PLY 10/10 and EDT 14/14 (30/30 total).
 
 ## Implementation baseline and migration
 
@@ -55,12 +55,10 @@ The migration recommendation and dependency-ordered implementation blocks are re
 
 ## Remaining specification gates
 
-1. SM-05 final verification.
-2. SM-05 freeze.
-3. SM-08 Technical Architecture & Platform.
-5. SM-09 Validation & Test Specification.
-6. SM-CA-01 project-wide cross-audit.
-7. Final V1 specification snapshot, only after required gates pass.
+1. SM-08 Technical Architecture & Platform.
+2. SM-09 Validation & Test Specification.
+3. SM-CA-01 project-wide cross-audit.
+4. Final V1 specification snapshot, only after required gates pass.
 
 These are distinct work steps. This status/index update does not execute them or change product requirements.
 
@@ -68,6 +66,6 @@ These are distinct work steps. This status/index update does not execute them or
 
 - Functional baseline: SM-AUD-04 COMPLETE / V1 FUNCTIONAL COMPLETENESS VERIFIED.
 - Product implementation baseline: SM-AUD-05 BLOCKED / implementation and verification not established.
-- Specification readiness: not final; SM-05L and the later gates above remain open.
+- Specification readiness: not final; SM-08, SM-09, SM-CA-01 and the final snapshot gate remain open.
 
-Next separate gate: SM-05 – Final Verification. A passing verification result and any freeze remain separate subsequent gates.
+Next separate documentation step: SM-08 – Technical Architecture & Platform.

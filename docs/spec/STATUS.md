@@ -9,7 +9,7 @@
 | SM-02 | Functional Specification | V0.1 DRAFT / 106/106 / PASS / authoritative SM-02A rows present |
 | SM-03 | UI/UX & Navigation | FROZEN |
 | SM-04 | Camera & Capture Engine | FROZEN / CAP 20/20 / ONS 5/5 / AST 5/5 |
-| SM-05 | Timeline, Playback & Frame Editing | V0.1 ASSEMBLED / 30/30 / FINAL VERIFICATION NOT STARTED / **NOT FROZEN** |
+| SM-05 | Timeline, Playback & Frame Editing | **FROZEN / FINAL-VERIFIED / 30/30 / 0 blocker** |
 | SM-06 | Persistence, Autosave & Recovery | COMPLETE / FINAL-VERIFIED / FROZEN |
 | SM-07 | Import & Export | CORRECTED / FINAL-VERIFIED / RE-FROZEN |
 | SM-AUD-00 | V1 total-audit evidence inventory | COMPLETE / inventory only |
@@ -22,7 +22,7 @@
 
 ## Status interpretation
 
-SM-05L has assembled the A…K blocks into the formal V0.1 document. Final Verification has not started and SM-05 remains not frozen. The previous `STATUS.md` label “FROZEN” was inconsistent with the source document and has been reconciled; no SM-05 functional contract was changed by assembly.
+SM-05L assembled the A…K blocks into the formal V0.1 document. Final Verification then passed against head `ce454acd1ee91859e54123a5cf963b8cadfd9381`, and the separately authorized Freeze Gate completed. The detailed source-block contracts remain unchanged; no new requirement or OD was introduced.
 
 SM-AUD-04 verifies completeness of the defined V1 functional baseline (106 requirements, 58 OD identities accounted, 18 cross-boundary contracts). It does not claim implementation complete, implementation verified, release ready, or final specification snapshot frozen.
 
@@ -54,6 +54,6 @@ No SM-AUD-05 PASS is implied. It can be revisited only after concrete implementa
 
 ## Next documentation step
 
-**SM-05 – Final Verification** against the assembled V0.1 document.
+**SM-08 – Technical Architecture & Platform**.
 
-A separate SM-05 Freeze Gate may follow only after its own verification and authorization. Then complete SM-08, SM-09, and SM-CA-01 in the order defined by the roadmap. No test build or runtime implementation is authorized by this status update.
+SM-05 assembly, Final Verification and the separate Freeze Gate are complete. Continue with SM-08, SM-09 and SM-CA-01 in the order defined by the roadmap. No test build or runtime implementation is authorized by this status update.
